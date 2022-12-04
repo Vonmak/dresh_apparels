@@ -1,0 +1,29 @@
+{% extends 'auth/base.html' %} {% block content %}
+<div class="container">
+  <h4 class="head text-center">Customer Login</h4>
+  <form action="" method="post">
+    {% csrf_token %}
+    <p>
+      <label for="id_username">Email</label>
+      <br>
+      <input type="email" name="email" required id="id_email" />
+    </p>
+    <p>
+      <label for="id_password">Password</label>
+      <br>
+      <input
+        type="password"
+        name="password"
+        maxlength="20"
+        required
+        id="id_password"
+      />
+    </p>
+    <input type="submit" value="Login" />
+  </form>
+  <p>
+    Don't Have an Account?<a href="/accounts/signup/customer">click here!</a>
+  </p>
+  <p>Are you a Merchant?<a href="/accounts/login/merchant">click here!</a></p>
+</div>
+{% endblock %}

@@ -3,6 +3,7 @@ from django.contrib.auth.models import AbstractUser
 from django.db.models.signals import post_save
 from django.dispatch import receiver
 from .managers import CustomUserManager
+from cloudinary.models import CloudinaryField
 
 # Create your models here.
 class User(AbstractUser):
@@ -19,12 +20,13 @@ class User(AbstractUser):
     
 class Merchant(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="merchant")
+    image = CloudinaryField('image')
     till_no = models.IntegerField(blank=True, null=True)
     location= models.CharField(max_length=50)
     date = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return self.business_name
+        return self.user.email
 
     @receiver(post_save, sender=User)
     def create_user(sender, instance, created, dispatch_uid="merchant", **kwargs):
@@ -43,11 +45,11 @@ class Merchant(models.Model):
 
 class Customer(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="customer")
-    name = models.CharField(max_length=50)
+    image = CloudinaryField('image')
     date = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
-        return self.name
+        return self.user.email
 
     @receiver(post_save, sender=User)
     def create_user(sender, instance, created, dispatch_uid="customer", **kwargs):

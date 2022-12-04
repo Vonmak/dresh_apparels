@@ -1,0 +1,63 @@
+{% extends 'auth/base.html' %}{% load static %}{% block content%}
+<div class="container-fluid">
+  <div class="row">
+    <div class="form">
+      <h4 class="head text-center">Customer Sign Up</h4>
+
+      <form action="" method="post">
+        {% csrf_token %}
+        <p>
+          <label for="id_first_name">First name</label>
+          <br>
+          <input
+            type="text"
+            name="first_name"
+            maxlength="150"
+            id="id_first_name"
+          />
+        </p>
+        <p>
+          <label for="id_last_name">Last name</label>
+          <br>
+          <input
+            type="text"
+            name="last_name"
+            maxlength="150"
+            id="id_last_name"
+          />
+        </p>
+        <p>
+          <label for="id_email">Email address</label>
+          <br>
+          <input
+            type="email"
+            name="email"
+            maxlength="254"
+            autofocus
+            required
+            id="id_email"
+          />
+        </p>
+        <p>
+          <label for="id_password1">Password</label>
+          <br>
+          <input type="password" name="password1" required id="id_password1" />
+        </p>
+        <p>
+          <label for="id_password2">Password Confirm</label>
+          <br>
+          <input type="password" name="password2" required id="id_password2" />
+        </p>
+        <input type="submit" value="Sign Up" />
+      </form>
+      <p>Have an Account?<a href="/accounts/login/customer">click here!</a></p>
+      <p>
+        Create a Merchant Account?<a href="/accounts/signup/merchant"
+          >click here!</a
+        >
+      </p>
+    </div>
+  </div>
+</div>
+
+{%endblock%}
