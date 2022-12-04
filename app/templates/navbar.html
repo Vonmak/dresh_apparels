@@ -1,0 +1,45 @@
+<nav class="navbar navbar-expand-md bg-light sticky-top navbar-light">
+  <a class="navbar-brand" href="{% url 'app:index' %}">Apparels</a>
+  <button
+    class="navbar-toggler"
+    type="button"
+    data-toggle="collapse"
+    data-target="#collapsibleNavbar"
+  >
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="collapsibleNavbar">
+    <ul class="navbar-nav ml-auto">
+      {% for category in menu_categories %} {% if not category.children.all %}
+      <li class="nav-item">
+        <a
+          href="{% url 'app:category_detail' category.slug %}"
+          class="nav-link"
+        >
+          {{ category.title |title}}
+        </a>
+      </li>
+      {% else %}
+      <li class="nav-item dropdown">
+        <a
+          href="{% url 'app:category_detail' category.slug %}"
+          class="nav-link dropdown-toggle"
+          data-toggle="dropdown"
+        >
+          {{ category.title |title}}
+        </a>
+
+        <div class="navbar-dropdown dropdown-menu">
+          {% for subcategory in category.children.all %}
+          <a
+            href="{% url 'app:category_detail' subcategory.slug %}"
+            class="navbar-item dropdown-item"
+            >{{ subcategory.title |title}}</a
+          >
+          {% endfor %}
+        </div>
+      </li>
+      {% endif %} {% endfor %}
+    </ul>
+  </div>
+</nav>
