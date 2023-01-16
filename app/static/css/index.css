@@ -1,0 +1,159 @@
+@import url('https://fonts.googleapis.com/css2?family=Charm&family=Great+Vibes&family=Poppins&display=swap');
+
+body {
+    font-family: 'Poppins', sans-serif;
+}
+
+/* Navigation Bar */
+.mainmenu {
+    padding-left: 100px;
+    padding-right: 100px;
+    padding-top: 20px;
+    background: rgb(29, 27, 27);
+    /* background: transparent; */
+}
+.navbread{
+    border: 1px solid red;
+    padding-left: 80px;
+    padding-right: 100px;
+}
+li img {
+    border-radius: 50%;
+    width: 35px;
+    object-fit: cover;
+    height: 35px;
+}
+
+
+/* Modal Sections */
+.modal-header h5 {
+    font-size: 17px;
+    margin-left: 180px;
+}
+
+.modal-footer {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 30px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+
+.black-btn {
+    padding: 8px;
+    text-align: center;
+    border-radius: 5px;
+    background-color: black;
+    color: white;
+    cursor: pointer;
+    transition: 0.5s;
+}
+
+.black-btn:hover {
+    text-decoration: none;
+    color: white;
+    background-color: #E56A10;
+    box-shadow: 0 12px 16px 0 rgba(0,0,0,0.24),0 17px 50px 0 rgba(0,0,0,0.19);
+}
+
+
+.dropdown-menu{
+    /* padding:0; */
+    /* margin:0; */
+    border:0 solid transition!important;
+    /* border:0 solid rgba(0,0,0,.15); */
+    border-radius:0;
+    -webkit-box-shadow:none!important;
+    box-shadow:none!important;
+}
+.mainmenu a{
+    color: white;
+}
+.dropdown-menu> li > a{
+    color: black;
+}
+.mainmenu a, .navbar-default .navbar-nav > li > a, .mainmenu ul li a , .navbar-expand-lg .navbar-nav .nav-link{
+    /* color: #fff; */
+    font-size:16px;
+    text-transform:capitalize;
+    padding:16px 15px;
+    font-family:'Roboto',sans-serif;
+    display: block !important;
+    text-decoration: none;
+}
+.mainmenu .active a,
+.mainmenu .active a:focus,
+.mainmenu .active a:hover,
+.mainmenu li a:hover,
+.mainmenu li a:focus,
+.navbar-default .navbar-nav>.show>a,
+.navbar-default .navbar-nav>.show>a:focus,
+.navbar-default .navbar-nav>.show>a:hover{
+    color: orange;
+    outline: 0;
+    text-decoration: none;
+}
+/*==========Sub Menu=v==========*/
+/* .mainmenu .collapse ul > li:hover > a{
+    background: none;
+} */
+.mainmenu .collapse ul ul > li:hover > a, .navbar-default .navbar-nav .show .dropdown-menu > li > a:focus, .navbar-default .navbar-nav .show .dropdown-menu > li > a:hover{
+    /* background: #4CAF50; */
+    border-radius: 5px;
+}
+/* .mainmenu .collapse ul ul ul > li:hover > a{
+    background: #4CAF50;
+
+} */
+
+.mainmenu .collapse ul ul, .mainmenu .collapse ul ul.dropdown-menu{
+    /* background:#1565C0; */
+    border-radius: 5px;
+}
+/* .mainmenu .collapse ul ul ul, .mainmenu .collapse ul ul ul.dropdown-menu{
+    background:#1E88E5
+} */
+/* .mainmenu .collapse ul ul ul ul, .mainmenu .collapse ul ul ul ul.dropdown-menu{
+    background:#64B5F6
+} */
+
+/******************************Drop-down menu work on hover**********************************/
+
+@media only screen and (min-width: 767px) {
+    .mainmenu .collapse ul li:hover> ul{
+        display:block
+    }
+    .mainmenu .collapse ul ul{
+        position:absolute;top:100%;left:0;min-width:250px;display:none
+    }
+    /*******/
+    .mainmenu .collapse ul ul li{
+        position:relative
+    }
+    .mainmenu .collapse ul ul li:hover> ul{
+        display:block
+    }
+    .mainmenu .collapse ul ul ul{
+        position:absolute;top:0;left:100%;min-width:250px;display:none
+    }
+    /*******/
+    .mainmenu .collapse ul ul ul li{
+        position:relative
+    }
+    .mainmenu .collapse ul ul ul li:hover ul{
+        display:block
+    }
+    .mainmenu .collapse ul ul ul ul{
+        position:absolute;top:0;left:-100%;min-width:250px;display:none;z-index:1
+    }
+
+}
+@media only screen and (max-width: 767px) {
+    .navbar-nav .show .dropdown-menu .dropdown-menu > li > a{
+        padding:16px 15px 16px 35px
+    }
+    .navbar-nav .show .dropdown-menu .dropdown-menu .dropdown-menu > li > a{
+        padding:16px 15px 16px 45px
+    }
+}

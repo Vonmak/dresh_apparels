@@ -1,139 +1,195 @@
-
-<nav class="navbar navbar-expand-lg bg-dark navbar-dark">
+<nav class="navbar navbar-dark navbar-expand-lg mainmenu">
   <a class="navbar-brand" href="{% url 'app:index' %}">Apparels</a>
   <button
     class="navbar-toggler"
     type="button"
     data-toggle="collapse"
-    data-target="#collapsibleNavbar"
+    data-target="#navbarSupportedContent"
+    aria-controls="navbarSupportedContent"
+    aria-expanded="false"
+    aria-label="Toggle navigation"
   >
     <span class="navbar-toggler-icon"></span>
   </button>
-  <div class="collapse navbar-collapse" id="collapsibleNavbar">
-    <ul class="navbar-nav ml-auto">
-      {% for category in menu_categories %} {% if not category.children.all %}
-      <li class="nav-item">
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="dropdown">
         <a
-          href="{% url 'app:category_detail' category.slug %}"
-          class="nav-link"
+          class="dropdown-toggle"
+          href="#"
+          id="navbarDropdown"
+          role="button"
+          data-toggle="dropdown"
+          aria-haspopup="true"
+          aria-expanded="false"
+          >Categories</a
         >
-          {{ category.title |title}}
+        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+          {% for category in menu_categories %} 
+          {% if not category.children.all%}
+          <li>
+            <a
+              href="{% url 'app:category_detail' category.slug %}"
+              class="dropdown-item"
+            >
+              {{ category.title |title}}
+            </a>
+          </li>
+          {% else %}
+          <li class="dropdown">
+            <a
+              class="dropdown-toggle"
+              href="{% url 'app:category_detail' category.slug %}"
+              id="navbarDropdown"
+              role="button"
+              data-toggle="dropdown"
+              aria-haspopup="true"
+              aria-expanded="false"
+              >{{ category.title |title}} &raquo;</a
+            >
+            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+              {% for subcategory in category.children.all %}
+              <li>
+                <a
+                  href="{% url 'app:category_detail' subcategory.slug %}"
+                  class=" dropdown-item"
+                  >{{ subcategory.title |title}}</a
+                >
+              </li>
+              {% endfor %}
+            </ul>
+          </li>
+          {% endif %} {% endfor %}
+        </ul>
+      </li>
+      {%if user.is_authenticated%} {% if request.user.is_merchant%}
+      <li class="dropdown">
+        <a
+          class="dropdown-toggle"
+          href=""
+          id="navbarDropdown"
+          role="button"
+          data-toggle="dropdown"
+          aria-haspopup="true"
+          aria-expanded="false"
+        >
+          {{request.user.first_name |title}}
+          <img src="{{request.user.merchant.image.url}}" alt="Image" />
         </a>
+        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" href="{% url 'app:logout' %}">Log Out</a>
+        </ul>
       </li>
       {% else %}
-      <li class="nav-item dropdown">
+      <li class="dropdown">
         <a
-          href="{% url 'app:category_detail' category.slug %}"
-          class="nav-link dropdown-toggle"
+          class="dropdown-toggle"
+          href=""
+          id="navbarDropdown"
+          role="button"
           data-toggle="dropdown"
+          aria-haspopup="true"
+          aria-expanded="false"
         >
-          {{ category.title |title}}
-        </a>
-
-        <div class="navbar-dropdown dropdown-menu">
-          {% for subcategory in category.children.all %}
-          <a
-            href="{% url 'app:category_detail' subcategory.slug %}"
-            class="navbar-item dropdown-item"
-            >{{ subcategory.title |title}}</a
-          >
-          {% endfor %}
-        </div>
-      </li>
-      {% endif %} {% endfor %}
-    </ul>
-    <!-- If User Is Logged In -->
-    {%if user.is_authenticated%}
-    {% if request.user.is_merchant%}
-      <div class="logged-info">
-        <div class="dropdown">
-          <button class="dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            {{request.user.first_name |title}}
-            <img src={{request.user.merchant.image.url}} alt="Image">
-          </button>
-  
-          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-              {% comment %} <a class="dropdown-item" href="{% url 'merchant_profile' request.user.id %}">Profile Settings</a> {% endcomment %}
-              <a class="dropdown-item" href="{% url 'app:logout' %}">Log Out</a>
-          </div>
-        </div>
-      </div>
-    {% else %}
-
-    <div class="logged-info">
-      <div class="dropdown">
-        <button class="dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           {{request.user.first_name |title}}
-          <img src={{request.user.customer.image.url}} alt="Image">
-        </button>
-
-        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-            {% comment %} <a class="dropdown-item" href="{% url 'customer_profile' request.user.id %}">Profile Settings</a> {% endcomment %}
-            <a class="dropdown-item" href="{% url 'app:logout' %}">Log Out</a>
-        </div>
-      </div>
-    </div>
-    
-    {% endif %}
-
-  {% else %}
-  <div class="auth-btns">
-    
-    <a class="white-btn" href="#" data-toggle="modal" data-target="#signupModalCenter">
+          <img src="{{request.user.customer.image.url}}" alt="Image" />
+        </a>
+        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" href="{% url 'app:logout' %}">Log Out</a>
+        </ul>
+      </li>
+      {% endif %} {% else %}
+      <a
+        class="white-btn"
+        href="#"
+        data-toggle="modal"
+        data-target="#signupModalCenter"
+      >
         Sign Up
-    </a>
-
-    <!-- Sign Up Modal -->
-    <div class="modal fade" id="signupModalCenter" tabindex="-1" role="dialog" aria-labelledby="signupModalCenterTitle" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="signupModalLongTitle"><strong>Sign Up As</strong></h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-
-          <div class="modal-footer">
-            <a class="black-btn" href="{% url 'app:merchant_signup' %}">
-              Merchant
-            </a>
-            <a class="orange-btn" href="{% url 'app:customer_signup' %}">
-              Customer
-            </a>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <a class="orange-btn" href="#" data-toggle="modal" data-target="#exampleModalCenter">
+      </a>
+      <a
+        class="orange-btn"
+        href="#"
+        data-toggle="modal"
+        data-target="#exampleModalCenter"
+      >
         Sign In
-    </a>
-
-    <!-- Sign In Modal -->
-    <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-      <div class="modal-dialog modal-dialog-centered" role="document">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLongTitle"><strong>Sign In As</strong></h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-              <span aria-hidden="true">&times;</span>
-            </button>
-          </div>
-
-          <div class="modal-footer">
-            <a class="black-btn" href="{% url 'app:merchant_login' %}">
-              Merchant
-            </a>
-            <a class="orange-btn" href="{% url 'app:customer_login' %}">
-              Customer
-            </a>
-          </div>
-        </div>
-      </div>
-    </div>
-
-  </div>
-  {% endif %}
+      </a>
+      {% endif %}
+    </ul>
   </div>
 </nav>
+
+<!-- Sign Up Modal -->
+<div
+  class="modal fade"
+  id="signupModalCenter"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="signupModalCenterTitle"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="signupModalLongTitle">
+          <strong>Sign Up As</strong>
+        </h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <div class="modal-footer">
+        <a class="black-btn" href="{% url 'app:merchant_signup' %}">
+          Merchant
+        </a>
+        <a class="orange-btn" href="{% url 'app:customer_signup' %}">
+          Customer
+        </a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Sign In Modal -->
+<div
+  class="modal fade"
+  id="exampleModalCenter"
+  tabindex="-1"
+  role="dialog"
+  aria-labelledby="exampleModalCenterTitle"
+  aria-hidden="true"
+>
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">
+          <strong>Sign In As</strong>
+        </h5>
+        <button
+          type="button"
+          class="close"
+          data-dismiss="modal"
+          aria-label="Close"
+        >
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+
+      <div class="modal-footer">
+        <a class="black-btn" href="{% url 'app:merchant_login' %}">
+          Merchant
+        </a>
+        <a class="orange-btn" href="{% url 'app:customer_login' %}">
+          Customer
+        </a>
+      </div>
+    </div>
+  </div>
+</div>

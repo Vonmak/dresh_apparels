@@ -15,7 +15,7 @@ class MerchantSignUpView(SuccessMessageMixin,CreateView):
     model = User
     form_class = MerchantForm
     template_name = 'merchant_signup.html'
-    success_url =reverse_lazy('merchant_login')
+    success_url =reverse_lazy('app:merchant_login')
     success_message = '%(username)s Signed Up Successfully!'
 
     def get_context_data(self, **kwargs):
@@ -26,7 +26,7 @@ class CustomerSignUpView(SuccessMessageMixin,CreateView):
     model = User
     form_class = CustomerForm
     template_name = 'customer_signup.html'
-    success_url =reverse_lazy('customer_login')
+    success_url =reverse_lazy('app:customer_login')
     success_message = '%(username)s Signed Up Successfully!'
 
     def get_context_data(self, **kwargs):
@@ -38,13 +38,13 @@ def merchantloginView(request):
     if request.method=='POST':
         form=MerchantLoginForm(request.POST)
         if form.is_valid():
-            username=form.cleaned_data['username']
+            username=form.cleaned_data['email']
             password=form.cleaned_data['password']
             user=authenticate(request,username=username,password=password)
             if user is not None:
                 login(request,user)
                 messages.success(request, username + " Logged In Successfully!")
-                return redirect('index')
+                return redirect('app:index')
             else:
                 messages.error(request, "Username or Password is Incorrect. Please Try Again!")
                 return redirect(merchantloginView)

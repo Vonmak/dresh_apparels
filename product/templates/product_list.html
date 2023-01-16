@@ -1,0 +1,41 @@
+<div class="container-lg product">
+  <div class="row">
+    {% for p in list_products %}
+    <div class="col-md-4 product-col">
+      <div class="polaroid product-card">
+        <img class="card-img-top product-image" src="{{ p.item_image.url }}" style="width:100%" height="150" />
+        <footer class="card-footer product-footer">
+          <div class="text-muted">{{ p.item_name|title }}</div>
+          <div class="text-muted">Kshs. {{ p.item_price }}</div>
+          <a
+            href="{% url 'app:product_detail' p.item_category.slug p.item_slug %}"
+            class="card-footer-item btn btn-warning btn-sm"
+            >View</a
+          >
+        </footer>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>
+
+<div class="container-lg product">
+  <div class="row">
+    {% for p in products %}
+    <div class="col-md-4 product-col">
+      <div class="polaroid product-card">
+        <img class="card-img-top product-image" src="{{ p.item_image.url }}" style="width:100%" height="150" />
+        <footer class="card-footer product-footer">
+          <div class="text-muted">{{ p.item_name|title }}</div>
+          <div class="text-muted">Kshs. {{ p.item_price }}</div>
+          <a
+            href="{% url 'app:product_detail' p.item_slug %}"
+            class="card-footer-item btn btn-warning btn-sm"
+            >View</a
+          > 
+        </footer>
+      </div>
+    </div>
+    {% endfor %}
+  </div>
+</div>

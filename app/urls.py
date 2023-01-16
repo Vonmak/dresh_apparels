@@ -4,6 +4,7 @@ from .views import *
 from accounts.views import *
 from product.views import *
 
+
 urlpatterns = [
     path('', index, name='index'),
     
@@ -13,13 +14,20 @@ urlpatterns = [
     path('accounts/login/merchant', merchantloginView, name='merchant_login'),
     path('accounts/login/customer', customerloginView, name='customer_login'),
     path('logout/', logout_user, name='logout'),
+    
+    #Product CRUD urls
+    path('products/', product_list, name='products'), #view all products
+    path('product/create/', product_create, name='product_create'), #create a new product
+    path('product/<slug:slug>/update/', product_update, name='product_update'), #update a new product
+    path('product/delete/<id>', product_delete, name='product_delete'), #delete a product
+    
 
-    # path('', include(('product.urls','product'), namespace='product')),
-    # path('', HomeView.as_view(), name='home'),
-    # path('', home, name='home'),
-    # path('product/<pk>/', ProductView.as_view(), name='product'),
-    # path('<slug:category_slug>/<slug:slug>/', product_detail, name='product_detail'),
-    # path('<slug:slug>/', category_detail, name='category_detail'),
+    # path('product/<slug:slug>/', ProductView.as_view(), name='product'),
+    # path('products/', ProductsView.as_view(), name='products'),
+    path('product/<slug:slug>/', product_detail, name='product_detail'),
+    path('<slug:slug>/', category_detail, name='category_detail'),
     # path('add-to-cart/<pk>/', add_to_cart, name='add-to-cart'),
     # path('remove-from-cart/<pk>/', remove_from_cart, name='remove-from-cart')
+    
+    
 ]

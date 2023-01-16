@@ -1,0 +1,80 @@
+{% extends 'base.html' %} {% block title %}{{ product.title }} | {% endblock %}
+{% block content %}
+<div id="productapp">
+  <nav class="breadcrumb" aria-label="breadcrumb">
+    <ul class="breadcrumb">
+      <li class="breadcrumb-item"><a href="{% url 'app:index' %}">Home</a></li>
+      {% if product.category.parent %}
+      <li class="breadcrumb-item">
+        <a href="{% url 'category_detail' product.item_category.parent.slug %}"
+          >{{ product.category.parent.title }}</a
+        >
+      </li>
+      {% endif %}
+      <li class="breadcrumb-item">
+        {% comment %}
+        <a href="{% url 'app:category_detail' product.item_category.slug %}"
+          >{{ product.item_category.title }}</a
+        >
+        {% endcomment %}
+      </li>
+      <li class="breadcrumb-item is-active">
+        <a href="{% url 'app:product_detail' product.item_slug %}"
+          >{{ product.item_name }}</a
+        >
+      </li>
+    </ul>
+  </nav>
+
+  <div class="columns">
+    <div class="column is-4">
+      <figure class="image is-4by3">
+        <img :src="mainImage" />
+      </figure>
+    </div>
+  </div>
+
+  {% if product.images.all %}
+  <hr />
+  <div class="columns">
+    <div class="column is-2" v-for="image in images">
+      <figure class="image is-128x128">
+        <img :src="image.thumbnail" @click="changeMainImage(image.image)" />
+      </figure>
+    </div>
+  </div>
+  {% endif %}
+  <hr />
+  <h1 class="title">{{ product.item_name|title }}</h1>
+  <figure class="image is-48x48">
+    {% if product.item_image %}
+    <img src="{{ product.item_image.url }}" />
+    {% endif %}
+  </figure>
+  <h2 class="subtitle">${{ product.item_price }}</h2>
+
+  <p>{{ product.item_description |lower|capfirst}}</p>
+  <a href="/product/{{product.item_slug}}/update"
+    ><i class="fa-solid fa-pencil"></i>Edit</a
+  >
+  <a href="/product/delete/{{ product.id }}"
+    ><i class="fa-solid fa-trash-can"></i>Delete</a
+  >
+  {% if product.in_cart %}
+  <p>Already in cart!</p>
+  {% else %} {% if product.item_count > 0 %}
+  <button @click="addToCart({{ product.id }})" class="btn btn-success btn-sm">
+    Add to cart
+  </button>
+  {% else %}
+  <p>The product is out of stock!</p>
+  {% endif %} {% endif %}
+
+  <hr />
+
+  <h2 class="subtitle">Related products</h2>
+
+  {% with related_products as list_products %} {% include 'product_list.html' %}
+  {% endwith %}
+</div>
+{% endblock %}
