@@ -4,6 +4,7 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.views.generic import ListView, DetailView
 
 from .models import Category, Item
+from accounts.models import User, Merchant
 from .forms import ProductForm
 
 import random
@@ -14,22 +15,20 @@ def product_list(request):
     products=Item.objects.all()
     return render(request,'product_list.html', locals())
 
-def category_detail(request, slug):
-    category = get_object_or_404(Category, slug=slug)
-    products = category.items.filter(parent=None)
-
-    context = {
-        'category': category,
-        'products': products
-    }
-
-    return render(request, 'category_detail.html', context)
+# def category_detail(request, slug):
+#     category = get_object_or_404(Category, slug=slug)
+#     products = category.items.filter(parent=None)
+    
+#     return render(request, 'category_detail.html', locals())
 
 def product_detail(request, slug):
     product = get_object_or_404(Item, item_slug=slug)
     # product.save()
 
-    # related_products = list(product.item_category.items.filter(parent=None).exclude(id=product.id))
+    # cat = Item.objects.filter(item_category=slug)
+    # print(cat)
+    # related_products = list(product.item_category.filter(parent=None).exclude(id=product.id))
+    # related_products = 
     
     # if len(related_products) >= 3:
     #     related_products = random.sample(related_products, 3)
@@ -39,15 +38,17 @@ def product_detail(request, slug):
 
     return render(request, 'product_detail.html', locals())
 
-def product_create(request):
+def product_create(request, id):
+    user=User.objects.filter(id=id).first()
+    merchant = Merchant.objects.get(user=id)
     form=ProductForm()
     if request.method == 'POST':
         form=ProductForm(request.POST, request.FILES)
         if form.is_valid():
             print(form.cleaned_data)
-            # post=pform.save(commit=False)
-            # post.user= request.user.Dog_Trainer
-            form.save()
+            post=form.save(commit=False)
+            post.user= request.user.merchant
+            post.save()
 
             messages.success(request, "Post Added Successfully!")
             return HttpResponseRedirect(request.path_info)
