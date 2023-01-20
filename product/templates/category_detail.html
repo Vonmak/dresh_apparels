@@ -9,13 +9,13 @@
       <a
         class="text-muted"
         href="{% url 'app:category_detail' category.parent.slug %}"
-        >{{ category.parent.title }}</a
+        >{{ category.parent.name }}</a
       >
     </li>
     {% endif %}
     <li class="is-active breadcrumb-item">
       <a class="text-muted" href="{% url 'app:category_detail' category.slug %}"
-        >{{ category.title }}</a
+        >{{ category.name }}</a
       >
     </li>
   </ul>
@@ -27,7 +27,7 @@
   <div class="columns is-multiline">
     {% for subcategory in category.children.all %}
     <div class="column is-3">
-      <h2 class="subtitle">{{ subcategory.title|title }}</h2>
+      <h2 class="subtitle">{{ subcategory.name|title }}</h2>
 
       <a href="{% url 'app:category_detail' subcategory.slug %}"
         >View products</a

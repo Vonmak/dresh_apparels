@@ -15,11 +15,11 @@ def product_list(request):
     products=Item.objects.all()
     return render(request,'product_list.html', locals())
 
-# def category_detail(request, slug):
-#     category = get_object_or_404(Category, slug=slug)
-#     products = category.items.filter(parent=None)
+def category_detail(request, slug):
+    category = get_object_or_404(Category, slug=slug)
+    products = category.items.filter(parent=None)
     
-#     return render(request, 'category_detail.html', locals())
+    return render(request, 'category_detail.html', locals())
 
 def product_detail(request, slug):
     product = get_object_or_404(Item, item_slug=slug)

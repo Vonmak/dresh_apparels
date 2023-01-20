@@ -3,12 +3,13 @@
 <div id="productapp">
   <nav class="breadcrumb" aria-label="breadcrumb">
     <ul class="breadcrumb">
-      <li class="breadcrumb-item"><a href="{% url 'app:index' %}">Home</a></li>
+      <li class="breadcrumb-item"><a class="text-muted" href="{% url 'app:index' %}">Home</a></li>
       <li class="breadcrumb-item">
-        <a href="">{{ product.item_category.title }}</a>
+        <a class="text-muted" href="{% url 'app:category_detail' product.item_category.slug %}">
+          {{ product.item_category.name }}</a>
       </li>
       <li class="breadcrumb-item is-active">
-        <a href="{% url 'app:product_detail' product.item_slug %}"
+        <a class="text-muted" href="{% url 'app:product_detail' product.item_slug %}"
           >{{ product.item_name }}</a
         >
       </li>
