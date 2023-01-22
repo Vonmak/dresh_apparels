@@ -26,7 +26,6 @@ def category_detail(request, slug):
 
 def product_detail(request, slug):
     product = get_object_or_404(Item, item_slug=slug)
-    # product.save()
 
     related_products = Item.filter_by_category(product.item_category).exclude(id=product.id)
     print(related_products)
@@ -37,8 +36,6 @@ def product_detail(request, slug):
     return render(request, 'product_detail.html', locals())
 
 def product_create(request, id):
-    user=User.objects.filter(id=id).first()
-    merchant = Merchant.objects.get(user=id)
     form=ProductForm()
     if request.method == 'POST':
         form=ProductForm(request.POST, request.FILES)
@@ -49,7 +46,7 @@ def product_create(request, id):
             post.save()
 
             messages.success(request, "Post Added Successfully!")
-            return HttpResponseRedirect(request.path_info)
+            return redirect('app:index')
         else:
             messages.error(request, "Error! Please Try Again.")
             return HttpResponseRedirect(request.path_info)
