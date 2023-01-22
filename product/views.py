@@ -17,7 +17,10 @@ def product_list(request):
 
 def category_detail(request, slug):
     category = get_object_or_404(Category, slug=slug)
-    products = category.items.filter(parent=None)
+    print(category)
+    products = Item.objects.filter(item_category=category)
+    
+    print(products)
     
     return render(request, 'category_detail.html', locals())
 
@@ -25,16 +28,11 @@ def product_detail(request, slug):
     product = get_object_or_404(Item, item_slug=slug)
     # product.save()
 
-    # cat = Item.objects.filter(item_category=slug)
-    # print(cat)
-    # related_products = list(product.item_category.filter(parent=None).exclude(id=product.id))
-    # related_products = 
+    related_products = Item.filter_by_category(product.item_category).exclude(id=product.id)
+    print(related_products)
     
-    # if len(related_products) >= 3:
-    #     related_products = random.sample(related_products, 3)
-
-    # if product.parent:
-    #     return redirect('product_detail', category_slug=slug=product.parent.slug)
+    if len(related_products) >= 3:
+        related_products = random.sample(list(related_products), 3)
 
     return render(request, 'product_detail.html', locals())
 

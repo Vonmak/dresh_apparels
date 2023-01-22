@@ -18,7 +18,7 @@ cat=[
         ('food','food'),
     ]
 class Category(models.Model):
-    parent = models.ForeignKey('self', related_name='children', on_delete=models.CASCADE, blank=True, null=True)
+    # parent = models.ForeignKey('self', related_name='children', on_delete=models.CASCADE, blank=True, null=True)
     name = models.CharField(max_length=255, choices=cat)
     slug = models.SlugField(max_length=255)
     ordering = models.IntegerField(default=0)
@@ -35,7 +35,7 @@ class Category(models.Model):
         return '/%s/' % (self.name)
 class Item(models.Model):
     user = models.ForeignKey(Merchant, on_delete=models.CASCADE, related_name="item")
-    parent = models.ForeignKey('self', related_name='variants', on_delete=models.CASCADE, blank=True, null=True)
+    # parent = models.ForeignKey('self', related_name='variants', on_delete=models.CASCADE, blank=True, null=True)
     item_name = models.CharField(max_length=50)
     item_slug = models.SlugField(max_length=255)
     item_description = models.TextField()
@@ -72,6 +72,6 @@ class Item(models.Model):
         super(Item, self).save()
         
     @classmethod
-    def category(self, item):
+    def filter_by_category(self, item):
         cat = Item.objects.filter(item_category=item)
         return cat

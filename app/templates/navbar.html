@@ -25,8 +25,7 @@
           >Categories</a
         >
         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-          {% for category in menu_categories %} 
-          {% if not category.children.all%}
+          {% for category in menu_categories %}
           <li>
             <a
               href="{% url 'app:category_detail' category.slug %}"
@@ -35,31 +34,7 @@
               {{ category.title |title}}
             </a>
           </li>
-          {% else %}
-          <li class="dropdown">
-            <a
-              class="dropdown-toggle"
-              href="{% url 'app:category_detail' category.slug %}"
-              id="navbarDropdown"
-              role="button"
-              data-toggle="dropdown"
-              aria-haspopup="true"
-              aria-expanded="false"
-              >{{ category.title |title}} &raquo;</a
-            >
-            <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-              {% for subcategory in category.children.all %}
-              <li>
-                <a
-                  href="{% url 'app:category_detail' subcategory.slug %}"
-                  class=" dropdown-item"
-                  >{{ subcategory.title |title}}</a
-                >
-              </li>
-              {% endfor %}
-            </ul>
-          </li>
-          {% endif %} {% endfor %}
+          {% endfor %}
         </ul>
       </li>
       {%if user.is_authenticated%} {% if request.user.is_merchant%}

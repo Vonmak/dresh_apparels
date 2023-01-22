@@ -3,13 +3,21 @@
 <div id="productapp">
   <nav class="breadcrumb" aria-label="breadcrumb">
     <ul class="breadcrumb">
-      <li class="breadcrumb-item"><a class="text-muted" href="{% url 'app:index' %}">Home</a></li>
       <li class="breadcrumb-item">
-        <a class="text-muted" href="{% url 'app:category_detail' product.item_category.slug %}">
-          {{ product.item_category.name }}</a>
+        <a class="text-muted" href="{% url 'app:index' %}">Home</a>
+      </li>
+      <li class="breadcrumb-item">
+        <a
+          class="text-muted"
+          href="{% url 'app:category_detail' product.item_category.slug %}"
+        >
+          {{ product.item_category.name }}</a
+        >
       </li>
       <li class="breadcrumb-item is-active">
-        <a class="text-muted" href="{% url 'app:product_detail' product.item_slug %}"
+        <a
+          class="text-muted"
+          href="{% url 'app:product_detail' product.item_slug %}"
           >{{ product.item_name }}</a
         >
       </li>
@@ -63,8 +71,6 @@
   <hr />
 
   <h2 class="subtitle">Related products</h2>
-
-  {% with related_products as list_products %} {% include 'product_list.html' %}
-  {% endwith %}
+  {% for product in related_products %} {{product.item_name|title}} {% endfor %}
 </div>
 {% endblock %}

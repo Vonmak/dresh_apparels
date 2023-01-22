@@ -4,15 +4,6 @@
     <li class="breadcrumb-item">
       <a class="text-muted" href="{% url 'app:index' %}">Home</a>
     </li>
-    {% if category.parent %}
-    <li class="breadcrumb-item">
-      <a
-        class="text-muted"
-        href="{% url 'app:category_detail' category.parent.slug %}"
-        >{{ category.parent.name }}</a
-      >
-    </li>
-    {% endif %}
     <li class="is-active breadcrumb-item">
       <a class="text-muted" href="{% url 'app:category_detail' category.slug %}"
         >{{ category.name }}</a
