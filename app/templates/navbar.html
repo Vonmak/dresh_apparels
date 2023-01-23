@@ -1,5 +1,14 @@
-<nav class="navbar navbar-dark navbar-expand-lg mainmenu">
-  <a class="navbar-brand" href="{% url 'app:index' %}">Apparels</a>
+{% load static %}
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <a class="navbar-brand" href="{% url 'app:index' %}">
+    <img
+      src="{%static 'images/dresh.png'%}"
+      alt="Apparels"
+      class="navbar-image"
+    />
+  </a>
+  
+  
   <button
     class="navbar-toggler"
     type="button"
@@ -25,15 +34,18 @@
           >Categories</a
         >
         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+          
           {% for category in menu_categories %}
+          {% if category.items.count > 0 %}
           <li>
             <a
               href="{% url 'app:category_detail' category.slug %}"
               class="dropdown-item"
             >
-              {{ category.title |title}}
+              {{ category.name |title}}
             </a>
           </li>
+          {% endif %}
           {% endfor %}
         </ul>
       </li>
