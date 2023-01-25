@@ -51,19 +51,19 @@ class Item(models.Model):
     def __str__(self):
         return self.item_name
     
-    def get_absolute_url(self):
-        return reverse("app:product_detail", kwargs={
-            "pk" : self.pk
-        })
+    # def get_absolute_url(self):
+    #     return reverse("app:product", kwargs={
+    #         'slug': self.slug
+    #     })
 
-    def get_add_to_cart_url(self) :
+    def get_add_to_cart_url(self):
         return reverse("app:add-to-cart", kwargs={
-            "pk" : self.pk
+            'slug': self.item_slug
         })
 
-    def get_remove_from_cart_url(self) :
+    def get_remove_from_cart_url(self):
         return reverse("app:remove-from-cart", kwargs={
-            "pk" : self.pk
+            'slug': self.item_slug
         })
     
     def save(self, **kwargs):

@@ -64,6 +64,19 @@
   <button @click="addToCart({{ product.id }})" class="btn btn-success btn-sm">
     Add to cart
   </button>
+  <div>
+    <a
+    href="{{ product.get_add_to_cart_url }}"
+    class="btn btn-primary btn-sm my-0 p pbtn">
+    Add to cart
+    <i class="fas fa-shopping-cart ml-1"></i>
+    </a>
+
+    <a href="{{ product.get_remove_from_cart_url }}"
+      class="btn btn-danger btn-sm my-0 p pbtn">
+      Remove from cart
+    </a>
+  </div>
   {% else %}
   <p>The product is out of stock!</p>
   {% endif %} {% endif %}

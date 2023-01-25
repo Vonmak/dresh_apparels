@@ -10,7 +10,6 @@
       type="image/x-icon"
       href="{% static 'images/dresh.png' %}"
     />
-    {% comment %} <script src="https://cdn.tailwindcss.com"></script> {% endcomment %}
     <link
       rel="stylesheet"
       type="text/css"
@@ -37,6 +36,7 @@
     {% block scripts %}
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://unpkg.com/htmx.org@1.7.0"></script>
     <script src="{% static 'js/jquery.slim.min.js' %} "></script>
     <script src="{% static 'js/popper.min.js' %} "></script>
     <script src="{% static 'js/bootstrap.bundle.min.js' %} "></script>

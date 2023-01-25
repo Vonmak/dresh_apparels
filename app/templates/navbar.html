@@ -1,4 +1,5 @@
 {% load static %}
+{% load cart_template_tags %}
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
   <a class="navbar-brand" href="{% url 'app:index' %}">
     <img
@@ -22,6 +23,14 @@
   </button>
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
+      {% if request.user.customer %}
+      <li
+        style="font-size: 10px; margin-left: -7px"
+        class="badge bg-danger"
+      >
+        {{ request.user|cart_item_count }}
+      </li>
+      {% endif %}
       <li class="dropdown">
         <a
           class="dropdown-toggle"
@@ -49,7 +58,8 @@
           {% endfor %}
         </ul>
       </li>
-      {%if user.is_authenticated%} {% if request.user.is_merchant%}
+      {%if user.is_authenticated%}
+      {% if request.user.merchant%}
       <li class="dropdown">
         <a
           class="dropdown-toggle"
@@ -61,7 +71,7 @@
           aria-expanded="false"
         >
           {{request.user.first_name |title}}
-          <img src="{{request.user.merchant.image.url}}" alt="Image" />
+          {% comment %} <img src="{{request.user.merchant.image.url}}" alt="Image" /> {% endcomment %}
         </a>
         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
           <a class="dropdown-item" href="{% url 'app:logout' %}">Log Out</a>
@@ -79,7 +89,7 @@
           aria-expanded="false"
         >
           {{request.user.first_name |title}}
-          <img src="{{request.user.customer.image.url}}" alt="Image" />
+          {% comment %} <img src="{{request.user.customer.image.url}}" alt="Image" /> {% endcomment %}
         </a>
         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
           <a class="dropdown-item" href="{% url 'app:logout' %}">Log Out</a>

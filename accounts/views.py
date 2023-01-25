@@ -58,13 +58,13 @@ def customerloginView(request):
     if request.method=='POST':
         form=CustomerLoginForm(request.POST)
         if form.is_valid():
-            username=form.cleaned_data['username']
+            username=form.cleaned_data['email']
             password=form.cleaned_data['password']
             user=authenticate(request,username=username,password=password)
             if user is not None:
                 login(request,user)
                 messages.success(request, username + " Logged In Successfully!")
-                return redirect('index')
+                return redirect('app:index')
             else:
                 messages.error(request, "Username or Password is Incorrect. Please Try Again!")
                 return redirect(customerloginView)
@@ -75,4 +75,4 @@ def customerloginView(request):
 
 def logout_user(request):
     logout(request)
-    return redirect('index')
+    return redirect('app:index')
