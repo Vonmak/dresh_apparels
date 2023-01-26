@@ -6,6 +6,7 @@ from django.views.generic import ListView, DetailView
 from .models import Category, Item
 from accounts.models import User, Merchant
 from .forms import ProductForm
+from cart.cart import Cart
 
 import random
 from datetime import datetime

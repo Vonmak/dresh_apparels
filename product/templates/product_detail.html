@@ -32,54 +32,65 @@
     </div>
   </div>
 
-  {% if product.images.all %}
-  <hr />
-  <div class="columns">
-    <div class="column is-2" v-for="image in images">
-      <figure class="image is-128x128">
-        <img :src="image.thumbnail" @click="changeMainImage(image.image)" />
-      </figure>
+  <div class="container-fluid product">
+    <div class="row">
+      <div class="col-md-4 col">
+        <figure class="image is-48x48">
+          {% if product.item_image %}
+           <img class="product-image" src="{{ product.item_image.url }}" /> 
+          {% endif%}
+        </figure>
+      </div>
+      <div class="col-md-4 col">
+        <h1>{{ product.item_name|title }}</h1>
+        
+        <h2>KES {{ product.item_price }}</h2>
+
+        <div>Description</div>
+        <div style='overflow:hidden'>{{ product.item_description |lower|capfirst}}</div>
+        {% if request.user.id == product.user.id %}
+        <a href="/product/{{product.item_slug}}/update"
+          ><i class="fa-solid fa-pencil"></i>Edit</a
+        >
+        <a href="/product/delete/{{ product.id }}"
+          ><i class="fa-solid fa-trash-can"></i>Delete</a
+          >
+          {% endif %}
+        </div>
+        <div class="col-md-4 col">
+          <form action="{% url 'app:add_to_cart' product.id %}" method="post">
+            {% csrf_token %}
+            <input type="submit" value="Add to Cart">
+          </form>
+          <form action="{% url 'app:remove_from_cart' product.id %}" method="post">
+            {% csrf_token %}
+            <input type="submit" value="Remove from Cart">
+          </form>
+          {% if product.item_count > 0 %}
+        <div>
+          <a
+          href="{% url 'app:add_to_cart' product.id %}"
+            class="btn btn-primary btn-sm my-0 p pbtn"
+          >
+            Add to cart
+            <i class="fa fa-cart-shopping"></i>
+          </a>
+
+          <a
+          href="{% url 'app:remove_from_cart' product.id %}"
+            class="btn btn-danger btn-sm my-0 p pbtn"
+          >
+            Remove from cart
+            <i class="fa fa-cart-circle-xmark"></i>
+          </a>
+        </div>
+        {% else %}
+        <p>The product is out of stock!</p>
+        {% endif %}
+      </div>
+      </div>
     </div>
   </div>
-  {% endif %}
-  <hr />
-  <h1 class="title">{{ product.item_name|title }}</h1>
-  <figure class="image is-48x48">
-    {% if product.item_image %}
-    <img src="{{ product.item_image.url }}" />
-    {% endif %}
-  </figure>
-  <h2 class="subtitle">${{ product.item_price }}</h2>
-
-  <p>{{ product.item_description |lower|capfirst}}</p>
-  <a href="/product/{{product.item_slug}}/update"
-    ><i class="fa-solid fa-pencil"></i>Edit</a
-  >
-  <a href="/product/delete/{{ product.id }}"
-    ><i class="fa-solid fa-trash-can"></i>Delete</a
-  >
-  {% if product.in_cart %}
-  <p>Already in cart!</p>
-  {% else %} {% if product.item_count > 0 %}
-  <button @click="addToCart({{ product.id }})" class="btn btn-success btn-sm">
-    Add to cart
-  </button>
-  <div>
-    <a
-    href="{{ product.get_add_to_cart_url }}"
-    class="btn btn-primary btn-sm my-0 p pbtn">
-    Add to cart
-    <i class="fas fa-shopping-cart ml-1"></i>
-    </a>
-
-    <a href="{{ product.get_remove_from_cart_url }}"
-      class="btn btn-danger btn-sm my-0 p pbtn">
-      Remove from cart
-    </a>
-  </div>
-  {% else %}
-  <p>The product is out of stock!</p>
-  {% endif %} {% endif %}
 
   <hr />
 

@@ -2,3 +2,7 @@
     width: 40px;
     border-radius: 10px;
 }
+.navbar{
+    padding-left: 100px !important;
+    padding-right: 100px;
+}

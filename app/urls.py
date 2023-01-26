@@ -3,10 +3,14 @@ from django.urls import include, path
 from .views import *
 from accounts.views import *
 from product.views import *
-from cart.views import *
+from cart.views import cart, add_to_cart, remove_from_cart
 
 
 urlpatterns = [
+    path('add_to_cart/<int:item_id>/', add_to_cart, name='add_to_cart'),
+    path('cart/', cart, name='cart'),
+    path('remove_from_cart/<int:item_id>/', remove_from_cart, name='remove_from_cart'),
+    
     path('', index, name='index'),
     
     path('accounts/', include('django.contrib.auth.urls')),
@@ -28,15 +32,10 @@ urlpatterns = [
     
     #Add to cart
     # path('cart/<int:product_id>/', add_to_cart, name='add_to_cart')
-    path('add-to-cart/<slug:slug>/', add_to_cart, name="add-to-cart"),
-    path('remove-from-cart/<slug:slug>/', remove_from_cart, name="remove-from-cart"),
-    path('remove-single-item-cart/<slug:slug>',remove_single_item_cart, name='remove-single-item-cart'),
+    # path('add-to-cart/<slug:slug>/', add_to_cart, name="add-to-cart"),
+    # path('remove-from-cart/<slug:slug>/', remove_from_cart, name="remove-from-cart"),
+    # path('remove-single-item-cart/<slug:slug>',remove_single_item_cart, name='remove-single-item-cart'),
     
     
-    
-    # path('product/<slug:slug>/', ProductView.as_view(), name='product'),
-    # path('products/', ProductsView.as_view(), name='products'),
-    # path('add-to-cart/<pk>/', add_to_cart, name='add-to-cart'),
-    # path('remove-from-cart/<pk>/', remove_from_cart, name='remove-from-cart')
 
 ]

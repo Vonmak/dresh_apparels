@@ -21,4 +21,4 @@ class Order(models.Model) :
     ordered = models.BooleanField(default=False)
 
     def __str__(self):
-        return self.user.name
+        return self.user.email

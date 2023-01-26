@@ -24,12 +24,15 @@
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
     <ul class="navbar-nav mr-auto">
       {% if request.user.customer %}
-      <li
-        style="font-size: 10px; margin-left: -7px"
-        class="badge bg-danger"
-      >
-        {{ request.user|cart_item_count }}
+      <a href="/view_cart">
+      <li>
+      <a href="{% url 'app:cart' %}">
+        <i class="fa fa-cart-shopping" style='font-size: 30px;'></i>
+        <span style="font-size: 10px; margin-left: -7px; top: 5px; position: absolute; text-align: center;" class="badge bg-danger">{{ request.user|cart_item_count }}</span>
+      </a>
+        
       </li>
+    </a>
       {% endif %}
       <li class="dropdown">
         <a
