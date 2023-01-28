@@ -1,34 +1,33 @@
 {% extends 'auth/base.html' %}{% load static %}{% block content%}
-<div class="container-fluid">
+<div class="container-fluid bg-image">
   <div class="row">
-    <div class="form">
-      <h4 class="head text-center">Merchant Sign Up</h4>
+    <div class="form col-md-6 mx-auto">
+      <h4 class="head text-center my-3">Merchant Sign Up</h4>
 
       <form action="" method="post">
         {% csrf_token %}
-        <p>
-          <label for="id_first_name">First name</label>
-          <br>
+        <div class="form-group">
+          <label for="id_first_name" class="form-label">First name</label>
           <input
             type="text"
             name="first_name"
             maxlength="150"
             id="id_first_name"
+            class="form-control"
           />
-        </p>
-        <p>
-          <label for="id_last_name">Last name</label>
-          <br>
+        </div>
+        <div class="form-group">
+          <label for="id_last_name" class="form-label">Last name</label>
           <input
             type="text"
             name="last_name"
             maxlength="150"
             id="id_last_name"
+            class="form-control"
           />
-        </p>
-        <p>
-          <label for="id_email">Email address</label>
-          <br>
+        </div>
+        <div class="form-group">
+          <label for="id_email" class="form-label">Email address</label>
           <input
             type="email"
             name="email"
@@ -36,31 +35,29 @@
             autofocus
             required
             id="id_email"
+            class="form-control"
           />
-        </p>
-        <p>
-          <label for="id_location">Location</label>
-          <br>
-          <input type="text" name="location" required id="id_location" />
-        </p>
-        <p>
-          <label for="id_password1">Password</label>
-          <br>
-          <input type="password" name="password1" required id="id_password1" />
-        </p>
-        <p>
-          <label for="id_password2">Password Confirm</label>
-          <br>
-          <input type="password" name="password2" required id="id_password2" />
-        </p>
-        <input type="submit" value="Sign Up" />
+        </div>
+        <div class="form-group">
+          <label for="id_location" class="form-label">Location</label>
+          <input type="text" name="location" required id="id_location" class="form-control"/>
+        </div>
+        <div class="form-group">
+          <label for="id_password1" class="form-label">Password</label>
+          <input type="password" name="password1" required id="id_password1" class="form-control"/>
+        </div>
+        <div class="form-group">
+          <label for="id_password2" class="form-label">Password Confirm</label>
+          <input type="password" name="password2" required id="id_password2" class="form-control"/>
+        </div>
+        <input type="submit" value="Sign Up" class="btn btn-primary" />
       </form>
-      <p>Have an Account?<a href="/accounts/login/merchant">click here!</a></p>
-      <p>
-        Create a Customer Account<a href="/accounts/signup/customer"
-          >click here!</a
-        >
-      </p>
+      <div class="text-center my-3">
+        <a href="/accounts/login/merchant" class="text-secondary">Have an Account? click here!</a>
+      </div>
+      <div class="text-center">
+        <a href="/accounts/signup/customer" class="text-secondary">Create a Customer Account click here!</a>
+      </div>
     </div>
   </div>
 </div>

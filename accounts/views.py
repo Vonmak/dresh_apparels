@@ -48,7 +48,7 @@ def merchantloginView(request):
                 return redirect('app:index')
             else:
                 messages.error(request, "Username or Password is Incorrect. Please Try Again!")
-                return redirect(merchantloginView)
+                return redirect('app:merchant_login')
         else:
             return HttpResponse("Form is Not Valid")
     
@@ -68,7 +68,7 @@ def customerloginView(request):
                 return redirect('app:index')
             else:
                 messages.error(request, "Username or Password is Incorrect. Please Try Again!")
-                return redirect(customerloginView)
+                return redirect("app:customer_login")
         else:
             return HttpResponse("Form is Not Valid")
     
