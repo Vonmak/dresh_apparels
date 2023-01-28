@@ -2,19 +2,21 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.db import transaction
 
-from .models import Customer, Merchant, User
+from django.contrib.auth import get_user_model
+
+from .models import Customer, Merchant
     
 class MerchantForm(UserCreationForm):
     location = forms.CharField(label='Location',required=True)
     password1 = forms.CharField(label='Password', widget=forms.PasswordInput, required=True)
     password2 = forms.CharField(label='Password Confirm', widget=forms.PasswordInput, required=True)
     class Meta:
-        model = User
+        model = get_user_model()
         fields =('first_name','last_name','email','location')
         extra_kwargs = {'password1':{'write_only':True,'min_length':6}}
 
     def create(self,validated_data):
-        return User.objects.create_user(**validated_data)
+        return get_user_model().objects.create_user(**validated_data)
     
     @transaction.atomic
     def save(self):
@@ -30,7 +32,7 @@ class CustomerForm(UserCreationForm):
     password1 = forms.CharField(label='Password', widget=forms.PasswordInput, required=True)
     password2 = forms.CharField(label='Password Confirm', widget=forms.PasswordInput, required=True)
     class Meta:
-        model = User
+        model = get_user_model()
         fields =('first_name','last_name','email')
         extra_kwargs = {'password1':{'write_only':True,'min_length':6}}
     

@@ -8,15 +8,14 @@ from cloudinary.models import CloudinaryField
 # Create your models here.
 class User(AbstractUser):
     is_merchant = models.BooleanField('merchant', default=False)
-    is_customer = models.BooleanField('customer', default=True)
+    is_customer = models.BooleanField('customer', default=False)
     phone= models.CharField(max_length=10)
-    email = models.EmailField(('email address'), unique=True) # changes email to unique and blank to false
-    username = None
-    
-    objects = CustomUserManager()
-    
+    email = models.EmailField(('email address'), unique=True)
+    username= None
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = [] # removes email from REQUIRED_FIELDS
+    REQUIRED_FIELDS = []
+    objects = CustomUserManager()
+
     
 class Merchant(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="merchant")

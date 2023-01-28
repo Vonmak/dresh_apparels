@@ -4,7 +4,8 @@ from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib import messages
 
 from accounts.forms import *
-from accounts.models import User
+# from accounts.models import User
+from django.contrib.auth import get_user_model
 
 from django.contrib.auth import login,authenticate, logout
 from django.urls import reverse_lazy
@@ -12,22 +13,22 @@ from django.contrib.auth.decorators import login_required
 
 
 class MerchantSignUpView(SuccessMessageMixin,CreateView):
-    model = User
+    model = get_user_model()
     form_class = MerchantForm
     template_name = 'merchant_signup.html'
     success_url =reverse_lazy('app:merchant_login')
-    success_message = '%(username)s Signed Up Successfully!'
+    success_message = '%(email)s Signed Up Successfully!'
 
     def get_context_data(self, **kwargs):
         kwargs['user_type'] = 'merchant'
         return super().get_context_data(**kwargs)
     
 class CustomerSignUpView(SuccessMessageMixin,CreateView):
-    model = User
+    model = get_user_model()
     form_class = CustomerForm
     template_name = 'customer_signup.html'
     success_url =reverse_lazy('app:customer_login')
-    success_message = '%(username)s Signed Up Successfully!'
+    success_message = '%(email)s Signed Up Successfully!'
 
     def get_context_data(self, **kwargs):
         kwargs['user_type'] = 'customer'
