@@ -36,6 +36,16 @@ class CustomerForm(UserCreationForm):
         fields =('first_name','last_name','email')
         extra_kwargs = {'password1':{'write_only':True,'min_length':6}}
     
+    def create(self,validated_data):
+        return get_user_model().objects.create_user(**validated_data)
+    
+    @transaction.atomic
+    def save(self):
+        user = super().save(commit=False)
+        user.is_customer = True
+        user.save()
+        return user
+    
 class MerchantLoginForm(forms.Form):
     email = forms.EmailField()
     password=forms.CharField(max_length=20, widget=forms.PasswordInput)
