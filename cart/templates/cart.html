@@ -22,13 +22,15 @@
           <td>{{ item.item.item_name| title}}</td>
           <td>{{item.item.item_price}}</td>
           <td>
-            <a
-              href='{% url "app:remove_single_item_from_cart" item.item.item_slug %}'
-              ><i class="fas fa-minus mr-2"></i></a
-            >{{item.quantity}}<a
-              href='{% url "app:add_to_cart" item.item.item_slug %}'
-              ><i class="fas fa-plus ml-2"></i
-            ></a>
+            <a href='{% url "app:remove_single_item_from_cart" item.item.item_slug %}'>
+              <i class="fas fa-minus mr-2"></i>
+            </a>
+            {{item.quantity}}
+            {% if item.item.item_count > item.quantity %}
+            <a href='{% url "app:add_to_cart" item.item.item_slug %}'>
+            <i class="fas fa-plus ml-2"></i>
+            </a>
+            {% endif %}
           </td>
           <td>
             <span>
@@ -60,8 +62,8 @@
         </tr>
         <tr class="text-center">
           <td colspan="5">
-            <a class="btn btn-warning mx-2" href="/checkout/">
-              Proceed to checkout
+            <a class="btn btn-warning mx-2" href="{% url 'app:generate_order' %}">
+              Continue to Checkout
             </a>
             <a class="btn btn-warning" href="{% url 'app:index' %}">
               Continue Shopping
