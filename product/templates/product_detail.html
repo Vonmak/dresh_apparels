@@ -58,7 +58,7 @@
           {% endif %}
         </div>
         <div class="col-md-4 col">
-          <form action="{% url 'app:add_to_cart' product.id %}" method="post">
+          <form action="{% url 'app:add_to_cart' product.item_slug %}" method="post">
             {% csrf_token %}
             <input type="submit" value="Add to Cart">
           </form>
