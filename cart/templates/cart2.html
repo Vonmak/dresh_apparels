@@ -1,0 +1,27 @@
+{% extends "base.html" %} {% load cart_template_tags %} {% block content %}
+<h1>Your Cart</h1>
+<table>
+  <thead>
+    <tr>
+      <th>Item</th>
+      <th>Price</th>
+      <th>Quantity</th>
+      <th>Total</th>
+    </tr>
+  </thead>
+  <tbody>
+    {% for item in items %}
+    <tr>
+      <td>{{ item.item.item_name }}</td>
+      <td>${{ item.item.item_price }}</td>
+      <td>{{ item.quantity }}</td>
+      <td>$ {{ item.quantity | multiply:item.item.item_price }}</td>
+    </tr>
+    {% endfor %}
+    <tr>
+      <td colspan="3">Total:</td>
+      <td>${{ total }}</td>
+    </tr>
+  </tbody>
+</table>
+{% endblock %}
