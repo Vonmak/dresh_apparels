@@ -1,16 +1,19 @@
-from django.shortcuts import render, redirect, HttpResponse, HttpResponseRedirect
+from django.shortcuts import render, redirect, HttpResponse
 from django.views.generic import CreateView
 from django.contrib.messages.views import SuccessMessageMixin
 from django.contrib import messages
+from django.db import transaction
+from django.contrib.auth import get_user_model,login,authenticate, logout
+from django.urls import reverse_lazy
+
+from rest_framework import status
+from rest_framework.decorators import api_view
+from rest_framework.response import Response
+from rest_framework.views import APIView
+from rest_framework.permissions import IsAuthenticatedOrReadOnly, IsAuthenticated, AllowAny
 
 from accounts.forms import *
-# from accounts.models import User
-from django.contrib.auth import get_user_model
-
-from django.contrib.auth import login,authenticate, logout
-from django.urls import reverse_lazy
-from django.contrib.auth.decorators import login_required
-
+from .serializers import MerchantSerializer, CustomerSerializer, LoginSerializer
 
 class MerchantSignUpView(SuccessMessageMixin,CreateView):
     model = get_user_model()
@@ -34,7 +37,7 @@ class CustomerSignUpView(SuccessMessageMixin,CreateView):
         kwargs['user_type'] = 'customer'
         return super().get_context_data(**kwargs)
     
-def merchantloginView(request):
+def merchant_login_view(request):
     form=MerchantLoginForm()
     if request.method=='POST':
         form=MerchantLoginForm(request.POST)
@@ -54,7 +57,7 @@ def merchantloginView(request):
     
     return render(request,'merchant_login.html',locals())
 
-def customerloginView(request):
+def customer_login_view(request):
     form=CustomerLoginForm
     if request.method=='POST':
         form=CustomerLoginForm(request.POST)
@@ -74,6 +77,65 @@ def customerloginView(request):
     
     return render(request,'customer_login.html',locals())
 
-def logout_user(request):
+def logout_view(request):
     logout(request)
     return redirect('app:index')
+
+
+
+@api_view(['POST'])
+def create_merchant(request):
+    serializer = MerchantSerializer(data=request.data)
+    if serializer.is_valid():
+        with transaction.atomic():
+            user = get_user_model().objects.create(
+                first_name=serializer.validated_data['first_name'],
+                last_name=serializer.validated_data['last_name'],
+                email=serializer.validated_data['email'],
+                is_merchant=True
+            )
+            user.set_password(serializer.validated_data['password1'])
+            user.save()
+
+            # Check if a Merchant with the given User already exists
+            try:
+                merchant = Merchant.objects.get(user=user)
+                merchant.location = serializer.validated_data['location']
+                merchant.save()
+            except Merchant.DoesNotExist:
+                merchant = Merchant.objects.create(user=user, location=serializer.validated_data['location'])
+
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    else:
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+
+@api_view(['POST'])
+def create_customer(request):
+    serializer = CustomerSerializer(data=request.data)
+    if serializer.is_valid():
+        with transaction.atomic():
+            user = get_user_model().objects.create(
+                first_name=serializer.validated_data['first_name'],
+                last_name=serializer.validated_data['last_name'],
+                email=serializer.validated_data['email'],
+                is_customer=True
+            )
+            user.set_password(serializer.validated_data['password1'])
+            user.save()
+
+        return Response(serializer.data, status=status.HTTP_201_CREATED)
+    else:
+        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    
+    
+
+
+class LoginView(APIView):
+    permission_classes = (AllowAny,)
+    serializer_class = LoginSerializer
+
+    def post(self, request):
+        serializer = self.serializer_class(data=request.data, context={'request': request})
+        serializer.is_valid(raise_exception=True)
+        return Response(serializer.validated_data, status=status.HTTP_200_OK)
