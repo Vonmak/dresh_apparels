@@ -1,82 +1,36 @@
-{% extends 'base.html' %}{% block content %}
-<main>
-  <div class="container">
-    <!--Section: Products v.3-->
-    <section class="text-center mb-4">
-      <!--Grid row-->
-      <div class="row wow fadeIn">
-        {% for item in products %}
-        <!--Grid column-->
-        <div class="col-lg-3 col-md-6 mb-4">
-          <!--Card-->
-          <div class="card">
-            <!--Card image-->
-            <div class="view overlay">  
-              <img
-              src="{{ item.item_image.url }}"
-                class="card-img-top"
-                alt=""
-              /> 
-              <a href="
-              ">
-                <div class="mask rgba-white-slight"></div>
-              </a>
-            </div>
-            <!--Card image-->
-            <!--Card content-->
-            <div class="card-body text-center">
-              <!--Category & Title-->
-              <a href="" class="grey-text">
-                <h5>{{ item.item_category.title|title}}</h5>
-              </a>
-              <h5>
-                <strong>
-                  <a 
-                  {% comment %} href="{{ item.get_absolute_url }}"  {% endcomment %}
-                  class="dark-grey-text"
-                    >{{ item.item_name|title }}
-                    <span
-                      class="badge badge-pill {% if item.get_label_display == 'New' %} danger-color {% else %} primary-color {% endif %}"
-                      >{{ item.get_label_display }}</span
-                    >
-                  </a>
-                </strong>
-              </h5>
+<!-- landingpage/templates/landing.html -->
 
-              <h4 class="font-weight-bold blue-text">
-                <strong
-                  >Kshs. {% if item.discount_price %} {{ item.discount_price }}
-                  {% else %} {{ item.item_price }} {% endif %}
-                </strong>
-              </h4>
-            </div>
-            <!--Card content-->
-          </div>
-          <!--Card-->
-        </div>
-        <!--Grid column-->
+{% extends "base.html" %} {% block content %}
+<div class="jumbotron text-center">
+  <h1>Welcome to our E-commerce Store</h1>
+  <p>Find the best products at the best prices.</p>
+  <p>
+    We offer a wide range of products including electronics, fashion, home and
+    kitchen, and much more.
+  </p>
+  <a href="{% url 'app:product_list' %}" class="btn btn-primary btn-lg">Shop Now</a>
+</div>
 
-        {% endfor %}
-      </div>
-      <!--Grid row-->
-    </section>
-    <!--Section: Products v.3-->
-
-    <!--Pagination-->
-    <center>
-      {%if users.has_previous %} {# whether the previous page exists #}
-          <a class="nav-item nav-link" href="?page={{users.previous_page_number}}">Previous</a> {# link to the prev page #}
-      {% endif %}
-      <span>{{users.number}}</span> {# the current page number #}
-      
-      {%if users.has_next %} {# whether the next page exists #}
-          <a class="nav-item nav-link" href="?page={{users.next_page_number}}">Next</a> {# link to the next page #}
-      {% endif %}
-  </center>
-    <!--Pagination-->
-    
+<div class="container">
+  <div class="row">
+    <div class="col-md-4">
+      <h2>Free Shipping</h2>
+      <p>We offer free shipping on all orders above $50.</p>
+    </div>
+    <div class="col-md-4">
+      <h2>Easy Returns</h2>
+      <p>
+        If you're not satisfied with your purchase, we offer hassle-free returns
+        within 30 days.
+      </p>
+    </div>
+    <div class="col-md-4">
+      <h2>24/7 Customer Support</h2>
+      <p>
+        Our dedicated customer support team is available 24/7 to help you with
+        any queries or issues you may have.
+      </p>
+    </div>
   </div>
-</main>
-<!--Main layout-->
-
+</div>
 {% endblock %}

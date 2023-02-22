@@ -28,11 +28,11 @@
       <li>
       <a href="{% url 'app:cart' %}">
         <i class="fa fa-cart-shopping" style='font-size: 30px;'></i>
-        <span style="font-size: 10px; margin-left: -7px; top: 5px; position: absolute; text-align: center;" class="badge bg-danger">{{ request.user|cart_item_count }}</span>
+        <span style="font-size: 10px; margin-left: -7px; top: 5px; position: absolute; text-align: center;" class="badge bg-danger">{{ request.user.customer|cart_item_count }}</span>
       </a>
         
       </li>
-    </a>
+      </a>
       {% endif %}
       <li class="dropdown">
         <a
@@ -92,7 +92,7 @@
           aria-expanded="false"
         >
           {{request.user.first_name |title}}
-          {% comment %} <img src="{{request.user.customer.image.url}}" alt="Image" /> {% endcomment %}
+          <img src="{{request.user.customer.image.url}}" alt="Image" />
         </a>
         <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
           <a class="dropdown-item" href="{% url 'app:logout' %}">Log Out</a>
@@ -100,7 +100,6 @@
       </li>
       {% endif %} {% else %}
       <a
-        class="white-btn"
         href="#"
         data-toggle="modal"
         data-target="#signupModalCenter"
@@ -108,7 +107,6 @@
         Sign Up
       </a>
       <a
-        class="orange-btn"
         href="#"
         data-toggle="modal"
         data-target="#exampleModalCenter"
@@ -146,10 +144,10 @@
       </div>
 
       <div class="modal-footer">
-        <a class="black-btn" href="{% url 'app:merchant_signup' %}">
+        <a class="btn" href="{% url 'app:merchant_signup' %}">
           Merchant
         </a>
-        <a class="orange-btn" href="{% url 'app:customer_signup' %}">
+        <a class="btn" href="{% url 'app:customer_signup' %}">
           Customer
         </a>
       </div>
@@ -183,10 +181,10 @@
       </div>
 
       <div class="modal-footer">
-        <a class="black-btn" href="{% url 'app:merchant_login' %}">
+        <a class="btn" href="{% url 'app:merchant_login' %}">
           Merchant
         </a>
-        <a class="orange-btn" href="{% url 'app:customer_login' %}">
+        <a class="btn" href="{% url 'app:customer_login' %}">
           Customer
         </a>
       </div>
