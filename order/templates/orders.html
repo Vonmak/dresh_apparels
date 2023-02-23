@@ -1,0 +1,24 @@
+{% extends 'base.html' %} {% block content %}
+<h1>My Orders</h1>
+{% if orders %}
+<ul>
+  {% for order in orders %}
+  <li>
+    <strong>Order ID:</strong> {{ order.pk }}<br />
+    <strong>Date Ordered:</strong> {{ order.date_created |date }}<br />
+    <strong>Total Amount:</strong> {{ order.total_amount }}<br />
+    <strong>Items:</strong><br />
+    <ul>
+      {% for item in order.items.all %}
+      <li>{{ item.item.item_name }} - {{ item.quantity }}</li>
+      {% endfor %}
+    </ul>
+    {% if not order.is_ordered %}
+    <a href="{% url 'app:make_payment' order_id=order.pk %}">Pay now</a>
+    {% endif %}
+  </li>
+  {% endfor %}
+</ul>
+{% else %}
+<p>You haven't placed any orders yet.</p>
+{% endif %} {% endblock %}
