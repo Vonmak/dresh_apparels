@@ -104,7 +104,7 @@ urlpatterns = [
     # Payment
     path('make_payment/<int:order_id>/', make_payment, name='make_payment'),
     
-    # # orders
+    # orders
     path('create_order/', create_order, name='create_order'),
     path('orders/', order_list, name='order_list'),
 ]
