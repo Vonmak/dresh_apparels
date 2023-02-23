@@ -1,8 +1,8 @@
 from django.db import models
-# from django.contrib.auth import get_user_model
-from accounts.models import Customer
-from cart.models import CartItem, Cart
 from django.utils import timezone
+
+from accounts.models import Customer
+from cart.models import CartItem
 
 # Create your models here.
 class Order(models.Model):
@@ -15,8 +15,3 @@ class Order(models.Model):
 
     def __str__(self):
         return f'Order #{self.pk} - {self.user.user.email}'
-
-    # def save(self, *args, **kwargs):
-    #     # Calculate total amount based on cart items
-    #     self.total_amount = sum([cart_item.item_total() for cart_item in self.items.all()])
-    #     super().save(*args, **kwargs)
