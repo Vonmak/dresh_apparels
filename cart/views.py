@@ -15,7 +15,7 @@ from rest_framework.response import Response
 
 # Create your views here.
 class CartView(ListView):
-    template_name = 'cart2.html'
+    template_name = 'cart.html'
     context_object_name = 'items'
 
     def get_queryset(self):
@@ -55,7 +55,7 @@ class AddToCartView(View):
             cart.items.add(cart_item)
             messages.success(request, "Item was added to your cart")
 
-        return redirect("app:CartView")
+        return redirect("app:cart")
 
 
 class RemoveFromCartView(LoginRequiredMixin, View):
@@ -76,12 +76,12 @@ class RemoveFromCartView(LoginRequiredMixin, View):
         else:
             messages.warning(request, "Cart does not exist.")
         
-        return redirect("app:CartView")
+        return redirect("app:cart")
 
 class RemoveSingleItemFromCartView(LoginRequiredMixin, View):
 
-    def get(self, request, item_slug, *args, **kwargs):
-        item = get_object_or_404(Item, item_slug=item_slug)
+    def get(self, request, slug, *args, **kwargs):
+        item = get_object_or_404(Item, item_slug=slug)
         order_item, created = CartItem.objects.get_or_create(item=item, cart__user=request.user.customer)
         
         if order_item.quantity > 1:
@@ -90,7 +90,7 @@ class RemoveSingleItemFromCartView(LoginRequiredMixin, View):
         else:
             order_item.delete()
         
-        return redirect(reverse('app:CartView'))
+        return redirect(reverse('app:cart'))
 
 class CartList(generics.ListCreateAPIView):
     queryset = Cart.objects.all()
