@@ -1,0 +1,85 @@
+{% extends 'base.html' %} {% load cart_template_tags %} {% block content%}
+<div class="container">
+  <div class="table-responsive">
+    <h2 class="text-center">
+      <b>Your Cart</b>
+    </h2>
+    <table class="table table-striped">
+      <thead>
+        <tr class="text-center">
+          <th scope="col">#</th>
+          <th scope="col">Item</th>
+          <th scope="col">Price</th>
+          <th scope="col">Quantity</th>
+          <th scope="col">Total Item Price</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% if items %} {% for item in items %}
+        <tr class="text-center">
+          <th scope="row">{{forloop.counter}}</th>
+          <td>{{ item.item.item_name| title}}</td>
+          <td>{{item.item.item_price}}</td>
+          <td>
+            <form
+              action="{% url 'app:remove_single_item_from_cart' item.item.item_slug%}"
+              method="get"
+            >
+              {% csrf_token %}
+              <button type="submit"><i class="fas fa-minus"></i></button>
+            </form>
+            {{item.quantity}} {% if item.item.item_count > item.quantity %}
+            <form
+              action="{% url 'app:add_to_cart' item.item.item_slug%}"
+              method="post"
+            >
+              {% csrf_token %}
+              <button type="submit"><i class="fas fa-plus"></i></button>
+            </form>
+            {% endif %}
+          </td>
+          <td>
+            <span>
+              KES {{ item.quantity | multiply:item.item.item_price }}
+            </span>
+            <a
+              style="color: red"
+              href='{% url "app:remove_from_cart" item.item.item_slug %}'
+              ><i class="fas fa-trash float-right"></i
+            ></a>
+          </td>
+        </tr>
+        {% endfor %} {% else %}
+        <tr class="text-center">
+          <td colspan="5">Your cart is empty</td>
+        </tr>
+        <tr>
+          <td colspan="5">
+            <a
+              class="btn float-right"
+              href="{% url 'app:product_list' %}"
+            >
+              Continue Shopping
+            </a>
+          </td>
+        </tr>
+        {% endif %}
+        <tr class="text-center font-weight-bold">
+          <td colspan="4">Cart Total</td>
+          <td>KES {{ total }}</td>
+        </tr>
+        <tr class="text-center">
+          <td colspan="5">
+            <a class="btn mx-2" href="{% url 'app:create_order' %}">
+              Continue to Order
+            </a>
+            <a class="btn" href="{% url 'app:product_list' %}">
+              Continue Shopping
+            </a>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock%}

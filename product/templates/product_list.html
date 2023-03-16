@@ -1,0 +1,23 @@
+<div class="flex flex-wrap justify-center">
+  {% for p in products %}
+  <div class="max-w-xs mx-4 my-4 shadow-lg rounded-lg overflow-hidden">
+    <img
+      class="h-48 w-full object-cover"
+      src="{{ p.item_image.url }}"
+      alt="{{ p.item_name }}"
+    />
+    <div class="px-6 py-4">
+      <div class="font-bold text-xl mb-2">{{ p.item_name|title }}</div>
+      <p class="text-gray-700 text-base">Kshs. {{ p.item_price }}</p>
+    </div>
+    <div class="px-6 pt-4 pb-2">
+      <a
+        href="{% url 'app:product_detail' p.item_slug %}"
+        class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2"
+      >
+        View
+      </a>
+    </div>
+  </div>
+  {% endfor %}
+</div>

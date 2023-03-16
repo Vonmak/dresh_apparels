@@ -1,0 +1,31 @@
+{% extends 'base.html' %} {% block content %}
+<nav class="breadcrumb navbread" aria-label="breadcrumb">
+  <ul class="breadcrumb">
+    <li class="breadcrumb-item">
+      <a class="text-muted" href="{% url 'app:index' %}">Home</a>
+    </li>
+    <li class="is-active breadcrumb-item">
+      <a class="text-muted" href="{% url 'app:category_detail' category.slug %}"
+        >{{ category.name }}</a
+      >
+    </li>
+  </ul>
+</nav>
+
+<div class="container-fluid category">
+  <h1 class="title">{{ category.title|title }}</h1>
+  {% if category.children.all %}
+  <div class="columns is-multiline">
+    {% for subcategory in category.children.all %}
+    <div class="column is-3">
+      <h2 class="subtitle">{{ subcategory.name|title }}</h2>
+
+      <a href="{% url 'app:category_detail' subcategory.slug %}"
+        >View products</a
+      >
+    </div>
+    {% endfor %}
+  </div>
+  {% endif %} {% with products as list_products %} {% include 'product_list.html'%} {% endwith %}
+</div>
+{% endblock %}

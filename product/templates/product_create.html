@@ -1,0 +1,75 @@
+{% extends 'base.html' %} {% block content %}
+
+<div class="container my-5">
+    <h4 class="text-center mb-4">Add Product</h4>
+    <form method="POST" enctype="multipart/form-data">
+      {% csrf_token %}
+      <div class="form-group">
+        <label>Name</label>
+        <input
+          type="text"
+          name="item_name"
+          class="form-control"
+          maxlength="50"
+          required
+          id="id_item_name"
+        />
+      </div>
+      <div class="form-group">
+        <label>Category</label>
+        <div class="form-control">{{form.item_category}}</div>
+      </div>
+
+      <div class="form-group">
+        <label>Image</label>
+        <input
+          type="file"
+          name="item_image"
+          class="form-control"
+          maxlength="50"
+          required
+          id="id_item_image"
+        />
+      </div>
+
+      <div class="form-group">
+        <label>Price</label>
+        <input
+          type="number"
+          name="item_price"
+          class="form-control"
+          maxlength="50"
+          required
+          id="id_item_price"
+        />
+      </div>
+
+      <div class="form-group">
+        <label>Number of Items</label>
+        <input
+          type="number"
+          name="item_count"
+          class="form-control"
+          required
+          id="id_item_count"
+        />
+      </div>
+
+      <div class="form-group">
+        <label>Description</label>
+        <textarea
+          name="item_description"
+          class="form-control"
+          id="id_item_description"
+          cols="30"
+          rows="10"
+        ></textarea>
+      </div>
+
+      <input type="hidden" name="form_type" value="dform" />
+
+      <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</div>
+
+{% endblock %}

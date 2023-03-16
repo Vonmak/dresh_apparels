@@ -1,0 +1,100 @@
+{% extends 'base.html' %} {% block title %}{{ product.title }} | {% endblock %}
+{% block content %}
+<div id="productapp">
+  <nav class="breadcrumb" aria-label="breadcrumb">
+    <ul class="breadcrumb">
+      <li class="breadcrumb-item">
+        <a class="text-muted" href="{% url 'app:index' %}">Home</a>
+      </li>
+      <li class="breadcrumb-item">
+        <a
+          class="text-muted"
+          href="{% url 'app:category_detail' product.item_category.slug %}"
+        >
+          {{ product.item_category.name }}</a
+        >
+      </li>
+      <li class="breadcrumb-item is-active">
+        <a
+          class="text-muted"
+          href="{% url 'app:product_detail' product.item_slug %}"
+          >{{ product.item_name }}</a
+        >
+      </li>
+    </ul>
+  </nav>
+
+  <div class="columns">
+    <div class="column is-4">
+      <figure class="image is-4by3">
+        <img :src="mainImage" />
+      </figure>
+    </div>
+  </div>
+
+  <div class="container-fluid product">
+    <div class="row">
+      <div class="col-md-4 col">
+        <figure class="image is-48x48">
+          {% if product.item_image %}
+           <img class="product-image" src="{{ product.item_image.url }}" /> 
+          {% endif%}
+        </figure>
+      </div>
+      <div class="col-md-4 col">
+        <h1>{{ product.item_name|title }}</h1>
+        
+        <h2>KES {{ product.item_price }}</h2>
+
+        <div>Description</div>
+        <div style='overflow:hidden'>{{ product.item_description |lower|capfirst}}</div>
+        {% if request.user.id == product.user.id %}
+        <a href="/product/{{product.item_slug}}/update"
+          ><i class="fa-solid fa-pencil"></i>Edit</a
+        >
+        <a href="/product/delete/{{ product.id }}"
+          ><i class="fa-solid fa-trash-can"></i>Delete</a
+          >
+          {% endif %}
+        </div>
+        <div class="col-md-4 col">
+          <form action="{% url 'app:add_to_cart' product.item_slug %}" method="post">
+            {% csrf_token %}
+            <input type="submit" value="Add to Cart">
+          </form>
+          <form action="{% url 'app:remove_from_cart' product.id %}" method="post">
+            {% csrf_token %}
+            <input type="submit" value="Remove from Cart">
+          </form>
+          {% if product.item_count > 0 %}
+        <div>
+          <a
+          href="{% url 'app:add_to_cart' product.item_slug %}"
+            class="btn btn-primary btn-sm my-0 p pbtn"
+          >
+            Add to cart
+            <i class="fa fa-cart-shopping"></i>
+          </a>
+
+          <a
+          href="{% url 'app:remove_from_cart' item_slug %}"
+            class="btn btn-danger btn-sm my-0 p pbtn"
+          >
+            Remove from cart
+            <i class="fa fa-cart-circle-xmark"></i>
+          </a>
+        </div>
+        {% else %}
+        <p>The product is out of stock!</p>
+        {% endif %}
+      </div>
+      </div>
+    </div>
+  </div>
+
+  <hr />
+
+  <h2 class="subtitle">Related products</h2>
+  {% for product in related_products %} {{product.item_name|title}} {% endfor %}
+</div>
+{% endblock %}
