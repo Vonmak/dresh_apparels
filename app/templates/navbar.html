@@ -1,15 +1,13 @@
-{% load static %}
-{% load cart_template_tags %}
+{% load static %} {% load cart_template_tags %}
 <nav class="navbar navbar-expand-lg navbar-light bg-light">
   <a class="navbar-brand" href="{% url 'app:index' %}">
     <img
-      src="{%static 'images/dresh.png'%}"
+      src="{% static 'images/dresh.png' %}"
       alt="Apparels"
       class="navbar-image"
     />
   </a>
-  
-  
+
   <button
     class="navbar-toggler"
     type="button"
@@ -21,98 +19,100 @@
   >
     <span class="navbar-toggler-icon"></span>
   </button>
+
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
-    <ul class="navbar-nav mr-auto">
+    <ul class="navbar-nav ml-auto">
       {% if request.user.customer %}
-      <a href="/view_cart">
       <li>
-      <a href="{% url 'app:cart' %}">
-        <i class="fa fa-cart-shopping" style='font-size: 30px;'></i>
-        <span style="font-size: 10px; margin-left: -7px; top: 5px; position: absolute; text-align: center;" class="badge bg-danger">{{ request.user.customer|cart_item_count }}</span>
-      </a>
-        
+        <a href="/cart">
+          <i class="fa fa-cart-shopping" style="font-size: 30px"></i>
+          <span
+            class="badge bg-danger"
+            >{{ request.user.customer|cart_item_count }}</span
+          >
+        </a>
       </li>
-      </a>
       {% endif %}
-      <li class="dropdown">
+
+      <li class="nav-item dropdown">
         <a
-          class="dropdown-toggle"
+          class="nav-link dropdown-toggle"
           href="#"
           id="navbarDropdown"
           role="button"
           data-toggle="dropdown"
           aria-haspopup="true"
           aria-expanded="false"
-          >Categories</a
         >
-        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
-          
-          {% for category in menu_categories %}
-          {% if category.items.count > 0 %}
-          <li>
-            <a
-              href="{% url 'app:category_detail' category.slug %}"
-              class="dropdown-item"
-            >
-              {{ category.name |title}}
-            </a>
-          </li>
-          {% endif %}
-          {% endfor %}
-        </ul>
+          Categories
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          {% for category in menu_categories %} {% if category.items.count > 0 %}
+          <a
+            class="dropdown-item"
+            href="{% url 'app:category_detail' category.slug %}"
+          >
+            {{ category.name |title}}
+          </a>
+          {% endif %} {% endfor %}
+        </div>
       </li>
-      {%if user.is_authenticated%}
-      {% if request.user.merchant%}
-      <li class="dropdown">
+
+      {% if user.is_authenticated %} {% if request.user.merchant %}
+      <li class="nav-item dropdown">
         <a
-          class="dropdown-toggle"
-          href=""
+          class="nav-link dropdown-toggle"
+          href="#"
           id="navbarDropdown"
           role="button"
           data-toggle="dropdown"
           aria-haspopup="true"
           aria-expanded="false"
         >
-          {{request.user.first_name |title}}
-          {% comment %} <img src="{{request.user.merchant.image.url}}" alt="Image" /> {% endcomment %}
+          {{ request.user.first_name |title}}
         </a>
-        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
           <a class="dropdown-item" href="{% url 'app:logout' %}">Log Out</a>
-        </ul>
+        </div>
       </li>
       {% else %}
-      <li class="dropdown">
+      <li class="nav-item dropdown">
         <a
-          class="dropdown-toggle"
-          href=""
+          class="nav-link dropdown-toggle"
+          href="#"
           id="navbarDropdown"
           role="button"
           data-toggle="dropdown"
           aria-haspopup="true"
           aria-expanded="false"
         >
-          {{request.user.first_name |title}}
-          <img src="{{request.user.customer.image.url}}" alt="Image" />
+          {{ request.user.first_name |title}}
+          
         </a>
-        <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+        <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" href="">Profile Settings</a>
           <a class="dropdown-item" href="{% url 'app:logout' %}">Log Out</a>
-        </ul>
+        </div>
       </li>
       {% endif %} {% else %}
-      <a
-        href="#"
-        data-toggle="modal"
-        data-target="#signupModalCenter"
-      >
-        Sign Up
-      </a>
-      <a
-        href="#"
-        data-toggle="modal"
-        data-target="#exampleModalCenter"
-      >
-        Sign In
-      </a>
+      <li class="nav-item">
+        <a
+          class="nav-link"
+          href="#"
+          data-toggle="modal"
+          data-target="#signupModalCenter"
+          >Sign Up</a
+        >
+      </li>
+      <li class="nav-item">
+        <a
+          class="nav-link"
+          href="#"
+          data-toggle="modal"
+          data-target="#exampleModalCenter"
+          >Sign In</a
+        >
+      </li>
       {% endif %}
     </ul>
   </div>
@@ -142,14 +142,9 @@
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
-
       <div class="modal-footer">
-        <a class="btn" href="{% url 'app:merchant_signup' %}">
-          Merchant
-        </a>
-        <a class="btn" href="{% url 'app:customer_signup' %}">
-          Customer
-        </a>
+        <a class="btn" href="{% url 'app:merchant_signup' %}">Merchant</a>
+        <a class="btn" href="{% url 'app:customer_signup' %}">Customer</a>
       </div>
     </div>
   </div>
@@ -181,12 +176,8 @@
       </div>
 
       <div class="modal-footer">
-        <a class="btn" href="{% url 'app:merchant_login' %}">
-          Merchant
-        </a>
-        <a class="btn" href="{% url 'app:customer_login' %}">
-          Customer
-        </a>
+        <a class="btn" href="{% url 'app:merchant_login' %}"> Merchant </a>
+        <a class="btn" href="{% url 'app:customer_login' %}"> Customer </a>
       </div>
     </div>
   </div>
