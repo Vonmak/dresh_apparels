@@ -9,6 +9,7 @@ from .forms import ProductForm
 
 import random
 from datetime import datetime
+from django.urls import reverse_lazy
 
 from rest_framework import generics
 from rest_framework.response import Response
@@ -24,7 +25,7 @@ class ProductListView(View):
         return render(request, 'product_list.html', {'products': products})
     
 
-class CategoryDetailView(View):
+class CategoryDetail(View):
     def get(self, request, slug, *args, **kwargs):
         category = get_object_or_404(Category, slug=slug)
         products = Item.objects.filter(item_category=category)
@@ -71,15 +72,29 @@ class ProductCreateView(View):
         return render(request, 'product_create.html', context)
 
 
-class ProductUpdateView(UpdateView):
-    model = Item
-    template_name = 'product_update.html'
-    form_class = ProductForm
-    context_object_name = 'product'
+class ProductUpdateView(View):
+    def get(self, request, slug, *args, **kwargs):
+        product = get_object_or_404(Item, item_slug=slug)
+        form = ProductForm(instance=product)
+        context = {'form': form, 'product': product}
+        return render(request, 'product_update.html', context)
 
-    def form_valid(self, form):
-        form.save()
-        return redirect('product_detail', slug=self.object.item_slug)
+    def post(self, request, slug, *args, **kwargs):
+        product = get_object_or_404(Item, item_slug=slug)
+        form = ProductForm(request.POST, request.FILES, instance=product)
+
+        if form.is_valid():
+            product = form.save()
+
+            messages.success(request, "Product Updated Successfully!")
+            return redirect('app:product_detail', slug=product.item_slug)
+        else:
+            messages.error(request, "Error! Please Try Again.")
+
+        context = {'form': form, 'product': product}
+        return render(request, 'product_update.html', context)
+
+
 
 
 # @method_decorator(login_required(login_url='/accounts/login/owner'), name='dispatch')

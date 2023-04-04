@@ -1,6 +1,10 @@
-<h1>Update Product</h1>
+{% extends 'base.html' %} {% block content %}
+<div class="container my-5">
+  <h4 class="text-center mb-4">Update Product: {{ product.item_name |title}}</h4>
 
-<form action="" method="post">
-  {% csrf_token %} {{ form.as_p }}
-  <input type="submit" value="Submit" />
-</form>
+  <form method="POST" enctype="multipart/form-data">
+    {% csrf_token %} {{form.as_p}}
+    <button type="submit" class="form-control">Submit</button>
+  </form>
+</div>
+{% endblock %}
