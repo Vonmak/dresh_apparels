@@ -1,11 +1,23 @@
 {% extends 'base.html' %} {% block content %}
-<div class="container">
-    <h4 class="text-center mb-4">Merchant Login</h4>
-  <form action="" method="post">
+<div class="container py-5">
+  <div class="row justify-content-center">
+    <div class="col-md-8">
+      <div class="card">
+        <div class="card-header text-center">
+<h4>Merchant Login</h4>
+        </div>
+        <div class="card-body">
+<form action="" method="post">
     {% csrf_token %}
     <div class="form-group">
       <label for="id_email">Email</label>
-      <input type="email" name="email" required id="id_email" class="form-control" />
+      <input
+        type="email"
+        name="email"
+        required
+        id="id_email"
+        class="form-control"
+      />
     </div>
     <div class="form-group">
       <label for="id_password">Password</label>
@@ -18,11 +30,17 @@
         class="form-control"
       />
     </div>
-    <input type="submit" value="Login" class="btn btn-primary btn-block" />
+    <button type="submit" class="form-control">Login</button>
   </form>
-  <p class="text-center mt-3">
-    Don't Have an Account? <a href="/accounts/signup/merchant">click here!</a>
-  </p>
-  <p class="text-center">Are you a Customer? <a href="/accounts/login/customer">click here!</a></p>
+        </div>
+        <div class="card-footer">
+<div class="text-center">
+  <div class="text-center my-3"><a href="/accounts/signup/merchant">Don't Have an Account? </a></div>
+  <div class="text-center my-3"> <a href="/accounts/login/customer">Are you a Customer? </a></div>
+</div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 {% endblock %}
