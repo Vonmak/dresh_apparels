@@ -46,10 +46,6 @@ class CustomerForm(UserCreationForm):
         user.save()
         return user
     
-class MerchantLoginForm(forms.Form):
-    email = forms.EmailField()
-    password=forms.CharField(max_length=20, widget=forms.PasswordInput)
-   
-class CustomerLoginForm(forms.Form):
+class LoginForm(forms.Form):
     email = forms.EmailField()
     password=forms.CharField(max_length=20, widget=forms.PasswordInput)
