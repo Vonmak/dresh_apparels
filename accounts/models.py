@@ -4,6 +4,7 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from .managers import CustomUserManager
 from cloudinary.models import CloudinaryField
+import choices
 
 # Create your models here.
 class User(AbstractUser):
@@ -19,10 +20,14 @@ class User(AbstractUser):
     
 class Merchant(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="merchant")
-    image = CloudinaryField('image')
-    till_no = models.IntegerField(blank=True, null=True)
+    business_image = CloudinaryField('image')
+    account_no = models.IntegerField(blank=True, null=True)
+    account_type = models.CharField(max_length=100, blank=True, choices=choices.account_type)
     location= models.CharField(max_length=50)
     date = models.DateTimeField(auto_now_add=True)
+    business_name = models.CharField(max_length=50, blank=True)
+    business_description = models.TextField()
+    
 
     def __str__(self):
         return self.user.email
@@ -45,6 +50,8 @@ class Merchant(models.Model):
 class Customer(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE, related_name="customer")
     image = CloudinaryField('image')
+    location= models.CharField(max_length=50, blank=True, null=True)
+    bio = models.TextField(blank=True, null=True)
     date = models.DateTimeField(auto_now_add=True)
 
     def __str__(self):
