@@ -1,0 +1,67 @@
+{% extends 'base.html' %}{% load static %} {% block content %}
+<h1>{{ customer.user.first_name }}'s Profile</h1>
+
+<p><strong>Contact Information:</strong></p>
+<div class="profile-image">
+  <img
+    class="img-thumbnail"
+    src="{{ customer.image.url }}"
+    alt=""
+  />
+</div>
+<ul>
+  <li><strong>Email:</strong> {{ customer.user.email }}</li>
+  <li><strong>Phone:</strong> {{ customer.user.phone }}</li>
+  <li><strong>Location:</strong> {{ customer.location }}</li>
+  <p><strong>Bio:</strong> {{ customer.bio }}</p>
+</ul>
+<div class="col-md-4">
+  <div class="edit-buttons">
+    <button
+      type="submit"
+      class="btn btn-sm btn-danger"
+      data-toggle="modal"
+      data-target="#user"
+    >
+      <i class="fa-solid fa-pencil"></i>
+      Edit Profile
+    </button>
+  </div>
+</div>
+
+<!-- The Modal -->
+<div class="modal" id="user">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <!-- Modal Header -->
+      <div class="modal-header">
+        <h4 class="modal-title">Update Your Profile</h4>
+        <a class="btn-close" data-dismiss="modal">
+          <i class="fa-solid fa-xmark"></i>
+        </a>
+      </div>
+
+      <!-- Modal body -->
+      <div class="modal-body">
+        <form method="POST" enctype="multipart/form-data">
+          {% csrf_token %} {{user_form.as_p}}
+          {{customer_form.as_p}}
+
+          <!-- Modal footer -->
+          <div class="modal-footer">
+            <button class="btn btn-primary btn-sm" type="submit">Submit</button>
+
+            <button
+              type="button"
+              class="btn btn-danger btn-sm"
+              data-dismiss="modal"
+            >
+              Close
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock content %}
