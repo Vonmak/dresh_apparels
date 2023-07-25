@@ -16,7 +16,7 @@ class CusA(admin.ModelAdmin):
     list_filter = ('date',)    
 
 class MercA(admin.ModelAdmin):
-    list_display = ('user','id', 'till_no', 'location', 'date',)
+    list_display = ('user','id', 'account_no', 'location', 'date',)
     list_filter = ('date',)
         
 admin.site.register(User,UserA)
