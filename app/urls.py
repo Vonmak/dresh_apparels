@@ -4,9 +4,10 @@ from .views import index
 from accounts.views import (
     MerchantSignUpView,
     CustomerSignUpView,
-    merchant_login_view,
-    customer_login_view,
-    logout_view
+    login_view,
+    logout_view,
+    customer_profile,
+    merchant_profile
 )
 from product.views import (
     ProductListView,
@@ -14,7 +15,7 @@ from product.views import (
     ProductDetailView,
     ProductUpdateView,
     ProductDeleteView,
-    CategoryDetailView
+    CategoryDetail
 )
 from cart.views import (
     AddToCartView,
@@ -33,9 +34,10 @@ urlpatterns = [
     path('accounts/', include('django.contrib.auth.urls')),
     path('accounts/signup/merchant/', MerchantSignUpView.as_view(), name='merchant_signup'),
     path('accounts/signup/customer/', CustomerSignUpView.as_view(), name='customer_signup'),
-    path('accounts/login/merchant/', merchant_login_view, name='merchant_login'),
-    path('accounts/login/customer/', customer_login_view, name='customer_login'),
+    path('accounts/login/user/', login_view, name='login'),
     path('logout/', logout_view, name='logout'),
+    path('merchant/profile/', merchant_profile, name='merchant_profile'),
+    path('customer/profile/', customer_profile, name='customer_profile'),
 
     # Product CRUD URLs
     path('products/', ProductListView.as_view(), name='product_list'),
@@ -51,7 +53,7 @@ urlpatterns = [
     path('remove-single-item-from-cart/<slug:slug>/', RemoveSingleItemFromCartView.as_view(), name='remove_single_item_from_cart'),
 
     # Category
-    path('category/<slug:slug>/', CategoryDetailView.as_view(), name='category_detail'),
+    path('category/<slug:slug>/', CategoryDetail.as_view(), name='category_detail'),
     
     # Payment
     path('make_payment/<int:order_id>/', make_payment, name='make_payment'),

@@ -6,12 +6,6 @@ from django.views.generic import ListView, View
 
 from .models import Cart, CartItem
 from product.models import Item
-from .serializers import CartItemSerializer, CartSerializer
-
-from rest_framework import generics
-from rest_framework.permissions import IsAuthenticatedOrReadOnly, AllowAny
-from rest_framework.views import APIView
-from rest_framework.response import Response
 
 # Create your views here.
 class CartView(ListView):
@@ -91,29 +85,3 @@ class RemoveSingleItemFromCartView(LoginRequiredMixin, View):
             order_item.delete()
         
         return redirect(reverse('app:cart'))
-
-class CartList(generics.ListCreateAPIView):
-    queryset = Cart.objects.all()
-    serializer_class = CartSerializer
-    permission_classes = [AllowAny]
-    
-
-class CartItemList(generics.ListCreateAPIView):
-    queryset = CartItem.objects.all()
-    serializer_class = CartItemSerializer
-    permission_classes = [AllowAny]
-
-    
-class RemoveSingleItemFromCartViews(LoginRequiredMixin, View):
-    def get(self, request, item_slug, *args, **kwargs):
-        item = get_object_or_404(Item, item_slug=item_slug)
-        order_item, created = CartItem.objects.get_or_create(item=item, cart__user=request.user.customer)
-
-        if order_item.quantity > 1:
-            order_item.quantity -= 1
-            order_item.save()
-        else:
-            order_item.delete()
-        
-        serializer = CartItemSerializer(order_item)
-        return Response(serializer.data)

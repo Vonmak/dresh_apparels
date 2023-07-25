@@ -1,11 +1,20 @@
-{% extends 'base.html' %} {% block content %}
-<h1>Make Payment for Order {{ order.pk }}</h1>
+{% extends 'base.html' %}
+{% block content %}
+  <h1>Make Payment for Order {{ order.pk }}</h1>
+  <p>Total Amount: ${{ order.total_amount }}</p>
 
-<p>Total Amount: ${{ order.total_amount }}</p>
+  <form method="post">
+    {% csrf_token %}
+    <input type="radio" name="payment_method" value="credit_card" id="credit_card">
+    <label for="credit_card">Credit Card</label><br>
 
-<form method="post">
-  {% csrf_token %}
+    <input type="radio" name="payment_method" value="debit_card" id="debit_card">
+    <label for="debit_card">Debit Card</label><br>
 
-  <button type="submit">Make Payment</button>
-</form>
+    <input type="radio" name="payment_method" value="mobile_money" id="mobile_money">
+    <label for="mobile_money">Mobile Money</label><br>
+
+    <button type="submit">Make Payment</button>
+  </form>
 {% endblock %}
+

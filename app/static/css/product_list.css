@@ -1,51 +1,44 @@
-.category{
-    border: 1px solid red;
-    padding-left: 100px;
-    padding-right: 100px;
-    padding-top: 20px;
-}
-.product-card{
-    border: 1px solid rgb(6, 128, 0);
-    /* width: 80%;
-  background-color: white;
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
-  margin-bottom: 25px;   */
-}
-/* .product-image{
-    height: 100px;
-    width: 100px;
-} */
-.product-footer{
-    text-align: center;
+/* Style the product list container */
+.product-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin: 20px 20px 0 auto;
 }
 
-/* If the width is 1000px or smaller */
-@media only screen and (max-width: 767px) {
-    .product{
-        padding-left: None;
-        padding-right: None;
-    }
-    .product-col{
-        border: 1px solid green;
-        width: 150px;
-    }
-    /* .product-footer{
-        display: flex;
-        justify-content: space-around;
-    } */
+/* Style each product item */
+.product-item {
+    display: flex;
+    flex-direction: column;
+    width: 250px;
+    padding: 20px;
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 5px;
 }
-@media only screen and (max-width: 500px) {
-    .product{
-        border: 1px solid red;
-        padding-left: None;
-        padding-right: None;
-    }
-    .product-col{
-        border: 1px solid green;
-        width: 100%;
-    }
-    .product-footer{
-        display: flex;
-        justify-content: space-around;
-    }
+
+/* Style the product image */
+.product-image {
+    width: 100%;
+    height: auto;
+    margin-bottom: 10px;
+}
+
+/* Style the product name */
+.product-name {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+/* Style the product price */
+.product-price {
+    font-size: 16px;
+    margin-bottom: 10px;
+}
+
+/* Style the product actions container */
+.product-actions {
+    display: flex;
+    justify-content: flex-end;
 }

@@ -1,22 +1,13 @@
-from django.shortcuts import render,HttpResponseRedirect,get_object_or_404, redirect                      
+from django.shortcuts import render,get_object_or_404, redirect                      
 from django.contrib import messages
 from django.views import View
-from django.views.generic.edit import UpdateView
 
 from .models import Category, Item
-from accounts.models import User, Merchant
+from accounts.models import Merchant
+from cart.models import CartItem
 from .forms import ProductForm
 
 import random
-from datetime import datetime
-from django.urls import reverse_lazy
-
-from rest_framework import generics
-from rest_framework.response import Response
-from .serializers import CategorySerializer, ItemSerializer
-from rest_framework import generics
-from rest_framework.permissions import IsAuthenticatedOrReadOnly, AllowAny
-from rest_framework.views import APIView
 
 # Create your views here.
 class ProductListView(View):
@@ -105,37 +96,5 @@ class ProductDeleteView(View):
         messages.success(request, "Product Deleted Successfully!")
         return redirect('app:index')
 
-class ItemList(generics.ListCreateAPIView):
-    serializer_class = ItemSerializer
-    queryset = Item.objects.all()
-    permission_classes = [AllowAny]
-
-
-class ItemDetail(generics.RetrieveUpdateDestroyAPIView):
-    serializer_class = ItemSerializer
-    queryset = Item.objects.all()
-    permission_classes = [AllowAny]
-
-
-class CategoryDetailView(APIView):
-    permission_classes = [AllowAny]
-    
-    def get(self, request, slug):
-        category = get_object_or_404(Category, slug=slug)
-        serializer = CategorySerializer(category)
-        return Response(serializer.data)
-    
-    # def put(self, request, slug):
-    #     category = get_object_or_404(Category, slug=slug)
-    #     serializer = CategorySerializer(category, data=request.data)
-    #     if serializer.is_valid():
-    #         serializer.save()
-    #         return Response(serializer.data)
-    #     return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-    
-    # def delete(self, request, slug):
-    #     category = get_object_or_404(Category, slug=slug)
-    #     category.delete()
-    #     return Response(status=status.HTTP_204_NO_CONTENT)
 
 

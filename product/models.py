@@ -47,6 +47,9 @@ class Item(models.Model):
     def __str__(self):
         return self.item_name
     
+    def show_desc(self):
+        return self.item_description[:50]
+    
     def get_add_to_cart_url(self):
         return reverse("app:add-to-cart", kwargs={
             'slug': self.item_slug

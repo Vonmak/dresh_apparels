@@ -37,7 +37,6 @@
       <li class="nav-item dropdown">
         <a
           class="nav-link dropdown-toggle"
-          href="#"
           id="navbarDropdown"
           role="button"
           data-toggle="dropdown"
@@ -62,7 +61,6 @@
       <li class="nav-item dropdown">
         <a
           class="nav-link dropdown-toggle"
-          href="#"
           id="navbarDropdown"
           role="button"
           data-toggle="dropdown"
@@ -72,6 +70,7 @@
           {{ request.user.first_name |title}}
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item" href="{% url 'app:merchant_profile'%}">My Profile</a>
           <a class="dropdown-item" href="{% url 'app:logout' %}">Log Out</a>
         </div>
       </li>
@@ -79,7 +78,6 @@
       <li class="nav-item dropdown">
         <a
           class="nav-link dropdown-toggle"
-          href="#"
           id="navbarDropdown"
           role="button"
           data-toggle="dropdown"
@@ -87,10 +85,9 @@
           aria-expanded="false"
         >
           {{ request.user.first_name |title}}
-          
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-          <a class="dropdown-item" href="">Profile Settings</a>
+          <a class="dropdown-item" href="{% url 'app:customer_profile'%}">My Profile</a>
           <a class="dropdown-item" href="{% url 'app:logout' %}">Log Out</a>
         </div>
       </li>
@@ -98,20 +95,13 @@
       <li class="nav-item">
         <a
           class="nav-link"
-          href="#"
           data-toggle="modal"
           data-target="#signupModalCenter"
           >Sign Up</a
         >
       </li>
       <li class="nav-item">
-        <a
-          class="nav-link"
-          href="#"
-          data-toggle="modal"
-          data-target="#exampleModalCenter"
-          >Sign In</a
-        >
+        <a class="nav-link" href="{% url 'app:login' %}"> Sign In </a>
       </li>
       {% endif %}
     </ul>
@@ -145,39 +135,6 @@
       <div class="modal-footer">
         <a class="btn" href="{% url 'app:merchant_signup' %}">Merchant</a>
         <a class="btn" href="{% url 'app:customer_signup' %}">Customer</a>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- Sign In Modal -->
-<div
-  class="modal fade"
-  id="exampleModalCenter"
-  tabindex="-1"
-  role="dialog"
-  aria-labelledby="exampleModalCenterTitle"
-  aria-hidden="true"
->
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLongTitle">
-          <strong>Sign In As</strong>
-        </h5>
-        <button
-          type="button"
-          class="close"
-          data-dismiss="modal"
-          aria-label="Close"
-        >
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-
-      <div class="modal-footer">
-        <a class="btn" href="{% url 'app:merchant_login' %}"> Merchant </a>
-        <a class="btn" href="{% url 'app:customer_login' %}"> Customer </a>
       </div>
     </div>
   </div>

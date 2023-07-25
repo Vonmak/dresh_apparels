@@ -38,35 +38,20 @@
     <link
       rel="stylesheet"
       type="text/css"
-      href="{% static 'css/navbar.css' %}"
-    />
-    <link
-      rel="stylesheet"
-      type="text/css"
       href="{% static 'css/index.css' %}"
     />
     <link
       rel="stylesheet"
       type="text/css"
-      href="{% static 'css/product_list.css' %}"
-    />
-    <link
-      rel="stylesheet"
-      type="text/css"
-      href="{% static 'css/product_detail.css' %}"
-    />
-    <link
-      rel="stylesheet"
-      type="text/css"
-      href="{% static 'css/product_update.css' %}"
+      href="{% static 'css/auth.css' %}"
     />
   </head>
   <body>
-    {% include 'navbar.html' %}
+    
      {% block content %}
     
     {% endblock %} 
-    {% include 'footer.html'%}
+    
     {% block scripts %}
     <!-- Optional JavaScript -->
     <!-- jQuery first, then Popper.js, then Bootstrap JS -->
@@ -74,7 +59,7 @@
     <script src="{% static 'js/jquery.slim.min.js' %} "></script>
     <script src="{% static 'js/popper.min.js' %} "></script>
     <script src="{% static 'js/bootstrap.bundle.min.js' %} "></script>
-    <script src="{% static 'js/script.js' %} "></script>
+    <script src="{% static 'js/auth.js' %} "></script>
     {% endblock %}
   </body>
 </html>

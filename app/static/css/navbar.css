@@ -147,20 +147,10 @@
   max-width: 100%;
   border-radius: 5px;
 }
-/* .footer__logo {
-  margin-bottom: 20px;
-} */
-
 .footer__info {
   display: flex;
   flex-direction: column;
 }
-/* .footer__info {
-  display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-} */
-
 .footer__contact {
   margin-bottom: 30px;
 }
