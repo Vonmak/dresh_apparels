@@ -7,15 +7,9 @@
     kitchen, and much more.
   </p>
   {% if request.user.merchant %}
-  <a
-    href="{% url 'app:product_create' request.user.merchant.id %}"
-    class="btn btn-primary btn-lg"
-    >Add Products</a
-  >
+  <a href="{% url 'app:product_create' request.user.merchant.id %}" class="btn btn-primary btn-lg">Add Products</a>
   {% else %}
-  <a href="{% url 'app:product_list' %}" class="btn btn-primary btn-lg"
-    >Shop Now</a
-  >
+  <a href="{% url 'app:product_list' %}" class="btn btn-primary btn-lg">Shop Now</a>
   {% endif %}
 </div>
 

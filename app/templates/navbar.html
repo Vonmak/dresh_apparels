@@ -1,56 +1,39 @@
 {% load static %} {% load cart_template_tags %}
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-  <a class="navbar-brand" href="{% url 'app:index' %}">
-    <img
-      src="{% static 'images/dresh.png' %}"
-      alt="Apparels"
-      class="navbar-image"
-    />
-  </a>
+<nav class="navbar navbar-expand-lg d-flex justify-content-between" id="scroll">
+  <a class="navbar-brand flex items-center" href="{% url 'app:index' %}">
+    <img src="{% static 'images/dresh.png' %}" alt="logo" class="logo" />
+    <code class="name">Apparels</code>
+  </a>  
 
-  <button
-    class="navbar-toggler"
-    type="button"
-    data-toggle="collapse"
-    data-target="#navbarSupportedContent"
-    aria-controls="navbarSupportedContent"
-    aria-expanded="false"
-    aria-label="Toggle navigation"
-  >
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+    aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
 
+  <!-- <form class="d-flex" role="search">
+    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
+    <button class="btn btn-outline-success" type="submit">Search</button>
+  </form> -->
+
   <div class="collapse navbar-collapse" id="navbarSupportedContent">
-    <ul class="navbar-nav ml-auto">
+    <ul class="navbar-nav mr-auto">
       {% if request.user.customer %}
       <li>
         <a href="/cart">
           <i class="fa fa-cart-shopping" style="font-size: 30px"></i>
-          <span
-            class="badge bg-danger"
-            >{{ request.user.customer|cart_item_count }}</span
-          >
+          <span class="badge bg-danger">{{ request.user.customer|cart_item_count }}</span>
         </a>
       </li>
       {% endif %}
 
       <li class="nav-item dropdown">
-        <a
-          class="nav-link dropdown-toggle"
-          id="navbarDropdown"
-          role="button"
-          data-toggle="dropdown"
-          aria-haspopup="true"
-          aria-expanded="false"
-        >
+        <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown"
+          aria-haspopup="true" aria-expanded="false">
           Categories
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
           {% for category in menu_categories %} {% if category.items.count > 0 %}
-          <a
-            class="dropdown-item"
-            href="{% url 'app:category_detail' category.slug %}"
-          >
+          <a class="dropdown-item" href="{% url 'app:category_detail' category.slug %}">
             {{ category.name |title}}
           </a>
           {% endif %} {% endfor %}
@@ -59,14 +42,8 @@
 
       {% if user.is_authenticated %} {% if request.user.merchant %}
       <li class="nav-item dropdown">
-        <a
-          class="nav-link dropdown-toggle"
-          id="navbarDropdown"
-          role="button"
-          data-toggle="dropdown"
-          aria-haspopup="true"
-          aria-expanded="false"
-        >
+        <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown"
+          aria-haspopup="true" aria-expanded="false">
           {{ request.user.first_name |title}}
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -76,14 +53,8 @@
       </li>
       {% else %}
       <li class="nav-item dropdown">
-        <a
-          class="nav-link dropdown-toggle"
-          id="navbarDropdown"
-          role="button"
-          data-toggle="dropdown"
-          aria-haspopup="true"
-          aria-expanded="false"
-        >
+        <a class="nav-link dropdown-toggle" id="navbarDropdown" role="button" data-toggle="dropdown"
+          aria-haspopup="true" aria-expanded="false">
           {{ request.user.first_name |title}}
         </a>
         <div class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -93,12 +64,7 @@
       </li>
       {% endif %} {% else %}
       <li class="nav-item">
-        <a
-          class="nav-link"
-          data-toggle="modal"
-          data-target="#signupModalCenter"
-          >Sign Up</a
-        >
+        <a class="nav-link" data-toggle="modal" data-target="#signupModalCenter">Sign Up</a>
       </li>
       <li class="nav-item">
         <a class="nav-link" href="{% url 'app:login' %}"> Sign In </a>
@@ -109,26 +75,15 @@
 </nav>
 
 <!-- Sign Up Modal -->
-<div
-  class="modal fade"
-  id="signupModalCenter"
-  tabindex="-1"
-  role="dialog"
-  aria-labelledby="signupModalCenterTitle"
-  aria-hidden="true"
->
+<div class="modal fade" id="signupModalCenter" tabindex="-1" role="dialog" aria-labelledby="signupModalCenterTitle"
+  aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="signupModalLongTitle">
           <strong>Sign Up As</strong>
         </h5>
-        <button
-          type="button"
-          class="close"
-          data-dismiss="modal"
-          aria-label="Close"
-        >
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
           <span aria-hidden="true">&times;</span>
         </button>
       </div>
