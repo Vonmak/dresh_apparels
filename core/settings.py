@@ -16,6 +16,10 @@ import cloudinary
 import cloudinary.uploader
 import cloudinary.api
 from datetime import timedelta
+from dotenv import load_dotenv
+
+# Load environment variables from .env file
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -25,10 +29,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.1/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-kq7)0xil93=4ogc_4!d=ik98#ed4h6a3kc^^m6=9c8&bj=#i&s'
 
-# SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+
+SECRET_KEY = os.environ['SECRET_KEY']
+DEBUG = os.environ.get('DEBUG') == 'True'
+# DATABASE_URL = os.environ['DATABASE_URL']
 
 ALLOWED_HOSTS = ['*']
 
@@ -162,15 +167,17 @@ STATICFILES_STORAGE = 'whitenoise.storage.CompressedManifestStaticFilesStorage'
 
 AUTH_USER_MODEL = 'accounts.User'
 
-cloudinary.config( 
-cloud_name = "ddtmsdlip", 
-api_key = "356757256393764", 
-api_secret = "V-68rzwrl7fFATIiLhanN9z8zts" 
-)
+# Cloudinary Configuration
+CLOUDINARY_CONFIG = {
+    'cloud_name': os.environ['CLOUDINARY_CLOUD_NAME'],
+    'api_key': os.environ['CLOUDINARY_API_KEY'],
+    'api_secret': os.environ['CLOUDINARY_API_SECRET']
+}
 
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 587
-EMAIL_USE_TLS = True
-EMAIL_HOST_USER = 'vonmak2@gmail.com'
-EMAIL_HOST_PASSWORD = 'oftxjjfuagltptqt'
+# Email Configuration
+EMAIL_BACKEND = os.environ['EMAIL_BACKEND']
+EMAIL_HOST = os.environ['EMAIL_HOST']
+EMAIL_PORT = int(os.environ['EMAIL_PORT'])
+EMAIL_USE_TLS = os.environ.get('EMAIL_USE_TLS', '').lower() == 'true'
+EMAIL_HOST_USER = os.environ['EMAIL_HOST_USER']
+EMAIL_HOST_PASSWORD = os.environ['EMAIL_HOST_PASSWORD']
