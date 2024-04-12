@@ -57,7 +57,9 @@ class ProductCreateView(View):
             messages.success(request, "Post Added Successfully!")
             return redirect('app:index')
         else:
-            messages.error(request, "Error! Please Try Again.")
+            # Collect form errors and display them
+            error_messages = "\n".join([f"{field}: {error}" for field, error in form.errors.items()])
+            messages.error(request, f"Error! Please correct the following errors:\n{error_messages}")
 
         context = {'form': form, 'current_user': current_user, 'current_merchant': current_merchant}
         return render(request, 'product_create.html', context)
@@ -91,7 +93,7 @@ class ProductUpdateView(View):
 # @method_decorator(login_required(login_url='/accounts/login/owner'), name='dispatch')
 class ProductDeleteView(View):
     def get(self, request, id, *args, **kwargs):
-        product = Item.objects.get(id=id)
+        product = get_object_or_404(Item, id=id)
         product.delete()
         messages.success(request, "Product Deleted Successfully!")
         return redirect('app:index')
