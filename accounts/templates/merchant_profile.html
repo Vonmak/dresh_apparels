@@ -1,6 +1,6 @@
 {% extends 'base.html' %}{% load static %} {% block content %}
 
-<div class="container">
+<div class="container-fluid">
   <div class="profile-header">
     <h1>{{ merchant.user.first_name }}'s Profile</h1>
   </div>
@@ -33,13 +33,15 @@
         </ul>
       </div>
     </div>
+    
     <div class="col-md-4">
       <div class="edit-buttons">
+        <a href="{% url 'app:product_create' request.user.merchant.id %}" class="btn btn-primary btn-lg">Add Products</a>
         <button
           type="submit"
           class="btn btn-sm btn-danger"
-          data-toggle="modal"
-          data-target="#user"
+          data-bs-toggle="modal"
+          data-bs-target="#user"
         >
           <i class="fa-solid fa-pencil"></i>
           Edit User
@@ -47,8 +49,8 @@
         <button
           type="submit"
           class="btn btn-sm btn-primary"
-          data-toggle="modal"
-          data-target="#business"
+          data-bs-toggle="modal"
+          data-bs-target="#business"
         >
           <i class="fa-solid fa-pencil"></i>
           Edit Business
@@ -82,7 +84,7 @@
             <button
               type="button"
               class="btn btn-danger btn-sm"
-              data-dismiss="modal"
+              data-bs-dismiss="modal"
             >
               Close
             </button>
@@ -100,7 +102,7 @@
       <!-- Modal Header -->
       <div class="modal-header">
         <h4 class="modal-title">Update Your Business Profile</h4>
-        <a class="btn-close" data-dismiss="modal">
+        <a class="btn-close" data-bs-dismiss="modal">
           <i class="fa-solid fa-xmark"></i>
         </a>
       </div>
@@ -114,7 +116,7 @@
           <div class="modal-footer">
             <button class="btn btn-sm" type="submit">Submit</button>
 
-            <button type="button" class="btn btn-sm" data-dismiss="modal">
+            <button type="button" class="btn btn-sm" data-bs-dismiss="modal">
               Close
             </button>
           </div>

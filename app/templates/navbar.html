@@ -26,7 +26,7 @@
       <ul class="navbar-nav mr-auto mb-2 mb-lg-0">
 
         <div class="dropdown">
-          <a class="nav-link text-reset me-3 dropdown-toggle"  id="navbarDropdown" role="button" data-toggle="dropdown"
+          <a class="nav-link text-reset me-3 dropdown-bs-toggle"  id="navbarDropdown" role="button" data-bs-toggle="dropdown"
             aria-haspopup="true" aria-expanded="false">
             Categories
           </a>
@@ -91,7 +91,7 @@
 
             {% if request.user.customer.image%}
 
-            <img src="{{request.user.image.url}}" class="rounded-circle" height="25"
+            <img src="{{request.user.customer.image.url}}" class="rounded-circle img-thumbnail" height="25"
               alt="Black and White Portrait of a Man" loading="lazy" />
 
             {%else%}
