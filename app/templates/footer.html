@@ -1,58 +1,73 @@
 {% load static %}
 
-<footer class="footer">
-  <div class="footer__inner">
-    <div class="footer__section">
-      <div class="footer__logo">
-        <img src="{% static 'images/dresh.png' %}" alt="Apparels" />
-      </div>
-      <div class="footer__contact">
-        <div class="footer__info">
-          <span class="footer__phone">
-            <a href="tel:(+254)791665710">(+254)791665710</a>
-          </span>
-          <span class="footer__email">
-            <a href="mailto:storepify@company.com" target="_blank">apparels@company.com</a>
-          </span>
+<footer>
+  <div class="container-fluid">
+    <div class="footer__inner">
+      <div class="footer__section">
+        <div class="footer__logo">
+          <img src="{% static 'images/dresh.png' %}" alt="Apparels" />
+        </div>
+        <div class="footer__contact">
+          <div class="footer__info">
+            <p>The Dresh Apparels</p>
+          </div>
         </div>
       </div>
-    </div>
 
-    <div class="footer__section">
-      <h3 class="footer__title"><span>QUICK LINKS</span></h3>
-      <ul class="footer__list">
-        <li class="footer__item"><a href="/account/" class="footer__link">My Account</a></li>
-        <li class="footer__item"><a href="#" class="footer__link">Careers</a></li>
-        <li class="footer__item"><a href="#" class="footer__link">Accessibility</a></li>
-        <li class="footer__item"><a href="#" class="footer__link">Need Help?</a></li>
-      </ul>
-    </div>
+      <div class="footer__section">
+        <h3 class="footer__title"><span>QUICK LINKS</span></h3>
+        <ul class="footer__list">
+          {% if user.is_authenticated %}
 
-    <div class="footer__section">
-      <h3 class="footer__title"><span>INFORMATION</span></h3>
-      <ul class="footer__list">
-        <li class="footer__item"><a href="/pages/about-us-1" class="footer__link">About Us</a></li>
-        <li class="footer__item"><a href="/pages/contact" class="footer__link">Contact Us</a></li>
-        <li class="footer__item"><a href="#" class="footer__link">Sitemap</a></li>
-        <li class="footer__item"><a href="#" class="footer__link">Tracking Order</a></li>
-        <li class="footer__item"><a href="#" class="footer__link">Payment Methods</a></li>
-      </ul>
-    </div>
+          {% if request.user.merchant %}
 
-    <div class="footer__section">
-      <h3 class="footer__title"><span>LEGAL</span></h3>
-      <ul class="footer__list">
-        <li class="footer__item"><a href="/pages/privacy-policy" class="footer__link">Privacy Policy</a></li>
-        <li class="footer__item"><a href="/pages/terms-of-service" class="footer__link">Terms of Service</a></li>
-        <li class="footer__item"><a href="/pages/shipping" class="footer__link">Shipping</a></li>
-        <li class="footer__item"><a href="/pages/returns-and-refunds-policy" class="footer__link">Returns and Refunds Policy</a></li>
-        <li class="footer__item"><a href="#" class="footer__link">Cancellation &amp; Modification</a></li>
-      </ul>
-    </div>
-  </div>
+          <li class="footer__item"><a href="{% url 'app:merchant_profile'%}" class="footer__link">My Account</a></li>
 
-  <div class="footer__copyright">
-    <div class="footer__text">&copy; 2023 Copyright By Apparels
+          {%endif%}
+
+          {% if request.user.customer %}
+          <li class="footer__item"><a href="{% url 'app:customer_profile'%}" class="footer__link">My Account</a></li>
+
+          {%endif%}
+
+          <li class="footer__item"><a href="{% url 'app:logout' %}" class="footer__link">Logout</a></li>
+
+          {%else%}
+
+          <li class="footer__item"><a href="{% url 'app:login' %}" class="footer__link">Sign In</a></li>
+          <li class="footer__item"><a  data-bs-toggle="modal" data-bs-target="#signupModalCenter" class="footer__link">Register an Account</a></li>
+
+          {%endif%}
+        </ul>
+      </div>
+
+      <div class="footer__section">
+        <h3 class="footer__title"><span>INFORMATION</span></h3>
+        <ul class="footer__list">
+          <li class="footer__item"><a href="#" class="footer__link">Home</a></li>
+          <li class="footer__item"><a href="#" class="footer__link">About Us</a></li>
+          <li class="footer__item"><a href="#" class="footer__link">Contact Us</a></li>
+          <li class="footer__item"><a href="#" class="footer__link">Sitemap</a></li>
+          <li class="footer__item"><a href="#" class="footer__link">Tracking Order</a></li>
+          <li class="footer__item"><a href="#" class="footer__link">Payment Methods</a></li>
+        </ul>
+      </div>
+
+      <div class="footer__section">
+        <h3 class="footer__title"><span>Contact</span></h3>
+        <ul class="footer__list">
+          <li class="footer__item">Email: <a href="" class="footer__link">yourtruenessorg@gmail.com</a></li>
+          <li class="footer__item">Location: <a href="" class="footer__link">92 E Fontenelle Dr. Daniel, Wyoming 83115</a></li>
+          <li class="footer__item">Tel: <a href="" class="footer__link">1-307-231-6437</a></li>
+
+        </ul>
+      </div>
+    </div>
+    <hr>
+
+    <div class="footer__copyright">
+      <div class="footer__text">&copy; Copyright 2023. All rights reserved. Developed By Rades
+      </div>
     </div>
   </div>
 </footer>

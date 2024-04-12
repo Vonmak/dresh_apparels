@@ -13,13 +13,11 @@ body {
   background-color: #e5e7eb;
 }
 a {
-  color: #ff0000;
   text-decoration: none;
 }
 
 a:hover {
-  text-decoration: underline;
-  color: #000000;
+  color: #F60711;
 }
 
 ul {
