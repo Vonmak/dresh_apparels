@@ -25,9 +25,16 @@
 
       <ul class="navbar-nav mr-auto mb-2 mb-lg-0">
 
+        {% if request.user.merchant %}
+        <a href="{% url 'app:product_create' request.user.merchant.id %}" class="nav-link btn btn-warning btn-sm">Add
+          Products</a>
+        {% else %}
+        <a href="{% url 'app:product_list' %}" class="nav-link btn btn-warning btn-sm">Shop Now</a>
+        {% endif %}
+
         <div class="dropdown">
-          <a class="nav-link text-reset me-3 dropdown-bs-toggle"  id="navbarDropdown" role="button" data-bs-toggle="dropdown"
-            aria-haspopup="true" aria-expanded="false">
+          <a class="nav-link text-reset me-3 dropdown-bs-toggle" id="navbarDropdown" role="button"
+            data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             Categories
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
@@ -52,12 +59,8 @@
         {% if user.is_authenticated %}
         <!-- Notifications -->
         <div class="dropdown">
-          <a 
-          class="nav-link text-reset me-3 dropdown-toggle" 
-          href="#" id="navbarDropdownMenuLink" 
-          role="button"
-            aria-expanded="false" 
-            data-bs-toggle="dropdown">
+          <a class="nav-link text-reset me-3 dropdown-toggle" href="#" id="navbarDropdownMenuLink" role="button"
+            aria-expanded="false" data-bs-toggle="dropdown">
             <i class="fas fa-bell"></i>
             <span class="badge rounded-pill badge-notification bg-danger">1</span>
           </a>
@@ -79,14 +82,8 @@
 
         <div class="dropdown">
 
-          <a 
-          class="nav-link text-reset me-3 dropdown-toggle" 
-          href="#" id="navbarDropdownMenuAvatar" 
-          role="button"
-            aria-expanded="false" 
-            data-bs-toggle="dropdown"
-            
-          >
+          <a class="nav-link text-reset me-3 dropdown-toggle" href="#" id="navbarDropdownMenuAvatar" role="button"
+            aria-expanded="false" data-bs-toggle="dropdown">
 
 
             {% if request.user.customer.image%}
