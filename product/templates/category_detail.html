@@ -1,5 +1,5 @@
 {% extends 'base.html' %} {% block content %}
-<nav class="breadcrumb navbread" aria-label="breadcrumb">
+<nav class="container breadcrumb navbread" aria-label="breadcrumb">
   <ul class="breadcrumb">
     <li class="breadcrumb-item">
       <a class="text-muted" href="{% url 'app:index' %}">Home</a>
@@ -12,7 +12,7 @@
   </ul>
 </nav>
 
-<div class="container-fluid category">
+<div class="container category">
   <h1 class="title">{{ category.title|title }}</h1>
   {% if category.children.all %}
   <div class="columns is-multiline">

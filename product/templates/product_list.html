@@ -1,17 +1,17 @@
 {% extends 'base.html' %}
 {% block content %}
+<div class="container">
 <div class="product-list">
   {% for product in products %}
-    <div class="product-item">
-      <img class="product-image" src="{{ product.item_image.url }}" alt="{{ product.item_name }}" />
-      <div class="product-details">
-        <div class="product-name">{{ product.item_name|title }}</div>
-        <p class="product-price">Kshs. {{ product.item_price }}</p>
-        <div class="product-actions">
-          <a href="{% url 'app:product_detail' product.item_slug %}" class="btn form"> View </a>
-        </div>
+    <div class="card" style="width: 18rem; height: 22rem;">
+      <img class="card-img-top" src="{{ product.item_image.url }}" alt="{{ product.item_name }}" />
+      <div class="card-body">
+        <h5 class="card-title">{{ product.item_name|title }}</h5>
+        <p class="card-text">Kshs. {{ product.item_price }}</p>
+        <a href="{% url 'app:product_detail' product.item_slug %}" class="nav-link btn form"> View </a>
       </div>
     </div>
   {% endfor %}
+</div>
 </div>
 {% endblock content %}
