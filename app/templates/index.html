@@ -6,52 +6,51 @@
 
     {%include 'carousel.html'%}
 
-    <nav class="nav nav-hero">
+    <nav class="container nav nav-hero">
       <a class="nav-link active" aria-current="page" href="{% url 'app:index' %}">Home</a>
       <a class="nav-link" href="{% url 'app:product_list' %}">All Products</a>
+      
       {% for category in menu_categories %}
       {% if category.items.count > 0 %}
-      <a class="nav-link" href="{% url 'app:category_detail' category.slug %}">{{ category.name |title}}</a>
-      {%else%}
-      <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">{{ category.name |title}}</a>
+      <a class="nav-link" href="?category={{ category.slug }}">{{ category.name |title}}</a>
 
+      {% else %}
+      <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true"
+        aria-label="No items in {{ category.name|title }}">{{ category.name|title }}</a>
       {% endif %}
       {% endfor %}
     </nav>
 
 
-    <div class="hero-products">
+    <div class=" container">
       <div class="product-list">
         {% for product in products %}
-          <div class="product-item">
-            <img class="product-image" src="{{ product.item_image.url }}" alt="{{ product.item_name }}" />
-            <div class="product-details">
-              <div class="product-name">{{ product.item_name|title }}</div>
-              <p class="product-price">Kshs. {{ product.item_price }}</p>
-              <div class="product-actions">
-                <a href="{% url 'app:product_detail' product.item_slug %}" class="btn form"> View </a>
-              </div>
-            </div>
+        <div class="card" style="width: 18rem; height: 22rem;">
+          <img class="card-img-top" src="{{ product.item_image.url }}" alt="{{ product.item_name }}" />
+          <div class="card-body">
+            <h5 class="card-title">{{ product.item_name|title }}</h5>
+            <p class="card-text">Kshs. {{ product.item_price }}</p>
+            <a href="{% url 'app:product_detail' product.item_slug %}" class="nav-link btn form"> View </a>
           </div>
+        </div>
         {% endfor %}
       </div>
     </div>
 
-
-    <div class="jumbotron text-center">
-      <h1>Welcome to our E-commerce Store</h1>
-      <p>Find the best products at the best prices.</p>
-      <p>
-        We offer a wide range of products including electronics, fashion, home and
-        kitchen, and much more.
-      </p>
-      {% if request.user.merchant %}
-      <a href="{% url 'app:product_create' request.user.merchant.id %}" class="btn btn-primary btn-lg">Add Products</a>
-      {% else %}
-      <a href="{% url 'app:product_list' %}" class="btn btn-primary btn-lg">Shop Now</a>
-      {% endif %}
+    {% if results %}
+    {% for product in results %}
+    <div class="card" style="width: 18rem; height: 22rem;">
+      <img class="card-img-top" src="{{ product.item_image.url }}" alt="{{ product.item_name }}" />
+      <div class="card-body">
+        <h5 class="card-title">{{ product.item_name|title }}</h5>
+        <p class="card-text">Kshs. {{ product.item_price }}</p>
+        <a href="{% url 'app:product_detail' product.item_slug %}" class="nav-link btn form"> View </a>
+      </div>
     </div>
+    {% endfor %}
+    {% endif %}
 
+<div class="bottom-hero">
     <div class="container">
       <div class="row">
         <div class="col-md-4">
@@ -74,6 +73,6 @@
         </div>
       </div>
     </div>
-  </div>
+  </div></div>
 </main>
 {% endblock %}
