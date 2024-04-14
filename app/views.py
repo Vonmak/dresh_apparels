@@ -1,8 +1,23 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from product.models import Category, Item
 
-# Create your views here.
 def index(request):
     menu_categories = Category.objects.all()
-    products=Item.objects.all()
-    return render(request,'index.html',locals())
+    products = Item.objects.all()
+
+    query = request.GET.get('query')
+    category_slug = request.GET.get('category')  # Get the category slug from URL parameter
+
+    if category_slug:  # If a category is selected
+        category = get_object_or_404(Category, slug=category_slug)  # Get the category object
+        products = products.filter(item_category=category)  # Filter items by the selected category
+
+    if query:
+        results = Item.search(query)
+    else:
+        results = None
+
+    return render(request, 'index.html', {'menu_categories': menu_categories, 'products': products, 'results': results})
+
+def about_page(request):
+    return render(request, 'about.html')
