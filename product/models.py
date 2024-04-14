@@ -1,6 +1,8 @@
 from django.db import models
 from django.shortcuts import reverse
 
+from django.db.models import Q  # Import Q object
+
 from cloudinary.models import CloudinaryField
 from accounts.models import Merchant
 from .slug import unique_slugify
@@ -20,6 +22,7 @@ cat=[
 class Category(models.Model):
     name = models.CharField(max_length=255, choices=cat)
     slug = models.SlugField(max_length=255)
+    parent = models.ForeignKey('self', null=True, blank=True, related_name='children', on_delete=models.CASCADE)
 
     class Meta:
         verbose_name_plural = 'Categories'
@@ -69,3 +72,12 @@ class Item(models.Model):
     def filter_by_category(self, item):
         cat = Item.objects.filter(item_category=item)
         return cat
+    
+    @classmethod
+    def search(cls, query):
+        items = cls.objects.filter(
+            Q(item_category__name__icontains=query) |  # Search by category name
+            Q(item_name__icontains=query)  # Search by item name
+        ).distinct()
+        
+        return items
