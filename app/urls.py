@@ -1,6 +1,6 @@
 from django.urls import include, path
 
-from .views import index
+from .views import index, about_page
 from accounts.views import (
     MerchantSignUpView,
     CustomerSignUpView,
@@ -29,6 +29,7 @@ from order.views import create_order,order_list
 urlpatterns = [
     # Home
     path('', index, name='index'),
+    path('about/', about_page, name='about_page'),
 
     # Accounts
     path('accounts/', include('django.contrib.auth.urls')),
