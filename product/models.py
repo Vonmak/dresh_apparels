@@ -8,23 +8,24 @@ from accounts.models import Merchant
 from .slug import unique_slugify
 
 # Create your models here.
-cat=[
-        ('vehicles','vehicles'),
-        ('property','property'),
-        ('phones','phones'),
-        ('electronics','electronics'),
-        ('home','home'),
-        ('beauty','beauty'),
-        ('fashion','fashion'),
-        ('sport','sport'),
-        ('food','food'),
-    ]
+cat = [
+    ('vehicles', 'Vehicles'),
+    ('property', 'Property'),
+    ('phones', 'Phones'),
+    ('electronics', 'Electronics'),
+    ('home', 'Home'),
+    ('beauty', 'Beauty'),
+    ('fashion', 'Fashion'),
+    ('sport', 'Sport'),
+    ('food', 'Food'),
+]
 class Category(models.Model):
-    name = models.CharField(max_length=255, choices=cat)
+    name = models.CharField(max_length=255)
     slug = models.SlugField(max_length=255)
     parent = models.ForeignKey('self', null=True, blank=True, related_name='children', on_delete=models.CASCADE)
 
     class Meta:
+        unique_together = ('slug', 'parent',) 
         verbose_name_plural = 'Categories'
 
     def __str__(self):
@@ -32,6 +33,14 @@ class Category(models.Model):
     
     def get_absolute_url(self):
         return '/%s/' % (self.name)
+    
+    def __str__(self):                           
+        full_path = [self.name]                  
+        k = self.parent
+        while k is not None:
+            full_path.append(k.name)
+            k = k.parent
+        return ' -> '.join(full_path[::-1]) 
     
 class Item(models.Model):
     user = models.ForeignKey(Merchant, on_delete=models.CASCADE, related_name="item")
@@ -67,6 +76,11 @@ class Item(models.Model):
         item_slug = '%s' % (self.item_name)
         unique_slugify(self, item_slug)
         super(Item, self).save()
+    
+    def save(self, *args, **kwargs):
+        if not self.item_slug:
+            self.item_slug = slugify(self.item_name)
+        super().save(*args, **kwargs)
         
     @classmethod
     def filter_by_category(self, item):
