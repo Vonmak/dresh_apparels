@@ -17,7 +17,7 @@
   font-size: 24px;
   font-weight: bold;
   margin: 10px 0;
-  border-bottom: 2px solid #f00;
+  border-bottom: 2px solid lightsalmon;
 }
 
 .item_price {
@@ -25,5 +25,5 @@
   font-weight: normal;
   margin: 5px 0;
   text-decoration: italic;
-  color: #f00;
+  color: lightsalmon;
 }
