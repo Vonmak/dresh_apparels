@@ -26,23 +26,24 @@
       <ul class="navbar-nav mr-auto mb-2 mb-lg-0">
 
         {% if request.user.merchant %}
-        <a href="{% url 'app:product_create' request.user.merchant.id %}" class="nav-link btn btn-warning btn-sm">Add
-          Products</a>
+        <a href="{% url 'app:product_create' request.user.merchant.id %}" class="nav-link btn btn-sm">
+          Add Products
+        </a>
         {% else %}
-        <a href="{% url 'app:product_list' %}" class="nav-link btn btn-warning btn-sm">Shop Now</a>
+        <a href="{% url 'app:product_list' %}" class="nav-link btn btn-sm">Shop Now</a>
         {% endif %}
 
         <div class="dropdown">
-          <a class="nav-link text-reset me-3 dropdown-bs-toggle" id="navbarDropdown" role="button"
+          <a class="nav-link me-3 dropdown-bs-toggle" id="navbarDropdown" role="button"
             data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
             Categories
           </a>
           <div class="dropdown-menu" aria-labelledby="navbarDropdown">
-            {% for category in menu_categories %} {% if category.items.count > 0 %}
+            {% for category in menu_categories %}
             <a class="dropdown-item" href="{% url 'app:category_detail' category.slug %}">
               {{ category.name |title}}
             </a>
-            {% endif %} {% endfor %}
+             {% endfor %}
           </div>
         </div>
 
