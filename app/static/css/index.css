@@ -33,15 +33,21 @@ ul {
   box-shadow: 0 0 0 0.2rem lightsalmon;
 }
 
+.btn {
+  background-color: lightsalmon;
+  color: #f5f5f5;
+  box-shadow: 0 0 0 0.2rem lightsalmon;
+}
+
 button.form-control {
   background-color: lightsalmon;
-  color: #ffffff;
+  color: #f5f5f5;
   box-shadow: 0 0 0 0.2rem lightsalmon;
 }
 
 button.form-control:hover {
   background-color: #333;
-  color: #ffffff;
+  color: #f5f5f5;
   box-shadow: 0 0 0 0.2rem #333;
 }
 
@@ -65,7 +71,7 @@ button.form-control:hover {
 /* main styles */
 .nav-hero {
   padding: 20px;
-  background-color: aliceblue;
+  background-color: #f5f5f5;
   border-radius: 5px;
 }
 
@@ -73,7 +79,7 @@ button.form-control:hover {
   padding-top: 50px;
   padding-bottom: 50px;
   background-color: lightsalmon;
-  color: #f8f9fa;
+  color: #f5f5f5;
 }
 .card-img-top {
   overflow: hidden;
@@ -82,7 +88,7 @@ button.form-control:hover {
 
 /* Profile header */
 .profile-header {
-  background-color: #f8f9fa;
+  background-color: #f5f5f5;
   padding: 20px;
   border-radius: 8px;
   margin-bottom: 20px;

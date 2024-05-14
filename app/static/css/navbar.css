@@ -11,13 +11,10 @@
 }
 
 .name {
-  font-weight: 600;
+  font-weight: 900;
   font-size: 1.25rem;
-  color: #333;
-  text-decoration: none;
-}
-.name:hover{
   color: lightsalmon;
+  text-decoration: none;
 }
 
 .navbar-toggler-icon {
@@ -66,6 +63,7 @@
   font-weight: normal;
   padding: 5px 20px;
   cursor: pointer;
+  margin-left: 5px;
 }
 
 .nav-link:hover {
