@@ -19,7 +19,16 @@ class ProductListView(View):
 class CategoryDetail(View):
     def get(self, request, slug, *args, **kwargs):
         category = get_object_or_404(Category, slug=slug)
-        products = Item.objects.filter(item_category=category)
+        
+        # Retrieve all descendants of the selected category
+        descendants = category.get_descendants()
+
+        # Include the selected category itself
+        descendants.append(category)
+
+        # Retrieve all items belonging to the selected category and its descendants
+        products = Item.objects.filter(item_category__in=descendants)
+        
         context = {'category': category, 'products': products}
         return render(request, 'category_detail.html', context)
 
