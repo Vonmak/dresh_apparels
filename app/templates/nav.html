@@ -1,0 +1,60 @@
+<nav class="container nav nav-hero">
+  <a class="nav-link active" aria-current="page" href="{% url 'app:index' %}">Home</a>
+  <a class="nav-link" href="{% url 'app:product_list' %}">All Products</a>
+  <ul class="nav">
+    {% for cat in menu_categories %}
+    {% if cat.items.count > 0 or cat.children.all%}
+    <li class="nav-item dropdown">
+
+      <a class="nav-link {% if cat.children.all %} dropdown-toggle {% endif %}"
+        href="{% if cat.children.all.exists and cat.items.count > 0 %} ?category={{ cat.slug }} {%else%} ?category={{ cat.slug }}{% endif %}">
+        {{ cat.name | title }}
+      </a>
+
+
+      {% if cat.children.all %}
+      <ul class="dropdown-menu">
+        {% for subcat in cat.children.all %}
+        <li class="nav-item dropend">
+          {% if subcat.items.count > 0 or subcat.children.all.exists %}
+
+          <a class="nav-link {% if subcat.children.all %} dropdown-toggle {% endif %}"
+            href="{% if subcat.children.all.exists and subcat.items.count > 0 %} ?category={{ subcat.slug }} {%else%} ?category={{ subcat.slug }}{% endif %}">
+            {{ subcat.name | title }}
+          </a>
+
+          {% if subcat.children.all %}
+          <ul class="dropdown-menu">
+            {% for subchild in subcat.children.all %}
+            <li class="nav-item dropend">
+
+
+              <a class="nav-link {% if subchild.children.all %} dropdown-toggle {% endif %}"
+                href="{% if subchild.children.all.exists and subchild.items.count > 0 %} ?category={{ subchild.slug }} {%else%} ?category={{ subchild.slug }}{% endif %}">
+                {{ subchild.name | title }}
+              </a>
+
+
+              {% if subchild.children.all %}
+              <ul class="dropdown-menu">
+                {% for subchild2 in subchild.children.all %}
+                <li class="nav-item dropend">
+                  <a class="dropdown-item" href="?category={{ subchild2.slug }}">{{ subchild2.name }}</a>
+                </li>
+                {% endfor %}
+              </ul>
+              {% endif %}
+            </li>
+            {% endfor %}
+          </ul>
+          {% endif %}
+          {% endif %}
+        </li>
+        {% endfor %}
+      </ul>
+      {% endif %}
+    </li>
+    {% endif %}
+    {% endfor %}
+  </ul>
+</nav>
