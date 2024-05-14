@@ -2,7 +2,7 @@ from django.shortcuts import render, get_object_or_404
 from product.models import Category, Item
 
 def index(request):
-    menu_categories = Category.objects.all()
+    menu_categories = Category.objects.filter(parent=None)
     products = Item.objects.all()
 
     query = request.GET.get('query')
