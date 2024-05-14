@@ -32,7 +32,21 @@ class Category(models.Model):
         return self.name
     
     def get_absolute_url(self):
-        return '/%s/' % (self.name)
+        return '/%s/' % (self.slug)
+    
+    def get_descendants(self):
+        descendants = []
+        self._get_descendants(descendants)
+        return descendants
+
+    def _get_descendants(self, descendants):
+        children = self.children.all()
+        for child in children:
+            descendants.append(child)
+            child._get_descendants(descendants)
+
+        return descendants
+
     
     def __str__(self):                           
         full_path = [self.name]                  
