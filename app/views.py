@@ -2,7 +2,6 @@ from django.shortcuts import render, get_object_or_404
 from product.models import Category, Item
 
 def index(request):
-    menu_categories = Category.objects.filter(parent=None)
     products = Item.objects.all()
 
     query = request.GET.get('query')
@@ -17,7 +16,7 @@ def index(request):
     else:
         results = None
 
-    return render(request, 'index.html', {'menu_categories': menu_categories, 'products': products, 'results': results})
+    return render(request, 'index.html', {'products': products, 'results': results})
 
 def about_page(request):
     return render(request, 'about.html')
