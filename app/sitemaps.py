@@ -1,14 +1,17 @@
 from django.contrib.sitemaps import Sitemap
-from django.shortcuts import reverse
-
 from product.models import Category, Item
 
-
 class CategorySitemap(Sitemap):
+    changefreq = 'weekly'
+    priority = 0.8
+
     def items(self):
         return Category.objects.all()
 
-class ProductSitemap(Sitemap):
+class ItemSitemap(Sitemap):
+    changefreq = 'daily'
+    priority = 0.9
+
     def items(self):
         return Item.objects.all()
     

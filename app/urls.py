@@ -1,4 +1,6 @@
 from django.urls import include, path
+from django.contrib.sitemaps.views import sitemap
+from .sitemaps import CategorySitemap, ItemSitemap
 
 from .views import index, about_page
 from accounts.views import (
@@ -25,6 +27,14 @@ from cart.views import (
 )
 from payment.views import make_payment
 from order.views import create_order,order_list
+
+
+
+sitemaps = {
+    'categories': CategorySitemap,
+    'items': ItemSitemap,
+}
+
 
 urlpatterns = [
     # Home
@@ -62,4 +72,7 @@ urlpatterns = [
     # orders
     path('create_order/', create_order, name='create_order'),
     path('orders/', order_list, name='order_list'),
+
+    # sitemaps
+    path('sitemap.xml', sitemap, {'sitemaps': sitemaps}, name='django.contrib.sitemaps.views.sitemap'),
 ]

@@ -85,6 +85,9 @@ class Item(models.Model):
         return reverse("app:remove-from-cart", kwargs={
             'slug': self.item_slug
         })
+
+    def get_absolute_url(self):
+        return reverse('app:product_detail', kwargs={'slug': self.item_slug})
     
     def save(self, **kwargs):
         item_slug = '%s' % (self.item_name)
