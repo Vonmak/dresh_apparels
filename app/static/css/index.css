@@ -38,6 +38,19 @@ ul {
   color: #f5f5f5;
   box-shadow: 0 0 0 0.2rem lightsalmon;
 }
+.btn-link{
+  margin: 10px;
+}
+.btn-link:hover{
+  color: lightsalmon;
+  background-color:#f5f5f5;
+  
+}
+.btn-link:focus{
+  border-color: lightsalmon;
+  outline: none;
+  box-shadow: 0px 0px 5px lightsalmon;
+}
 
 button.form-control {
   background-color: lightsalmon;

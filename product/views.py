@@ -47,32 +47,76 @@ class ProductDetailView(View):
 
 class ProductCreateView(View):
     def get(self, request, id, *args, **kwargs):
-        current_user = request.user.merchant
-        current_merchant = get_object_or_404(Merchant, id=id)
+        current_merchant = self.get_merchant(request, id)
+        products = Item.filter_by_owner(current_merchant)
+        categories = self.get_category_tree()
+
         form = ProductForm()
-        context = {'form': form, 'current_user': current_user, 'current_merchant': current_merchant}
+        context = {
+            'form': form,
+            'current_user': request.user.merchant,
+            'current_merchant': current_merchant,
+            'products': products,
+            'categories': categories 
+        }
         return render(request, 'product_create.html', context)
 
     def post(self, request, id, *args, **kwargs):
-        current_user = request.user.merchant
-        current_merchant = get_object_or_404(Merchant, id=id)
+        current_merchant = self.get_merchant(request, id)
         form = ProductForm(request.POST, request.FILES)
 
         if form.is_valid():
-            post = form.save(commit=False)
-            post.user = request.user.merchant
-            post.save()
+            try:
+                post = form.save(commit=False)
+                post.user = request.user.merchant
+                category_id = request.POST.get('item_category')
+                post.item_category = Category.objects.get(id=category_id) if category_id else None  # Set selected category
+                post.save()
 
-            messages.success(request, "Post Added Successfully!")
-            return redirect('app:index')
+                messages.success(request, "Post Added Successfully!")
+                return redirect('app:index')
+            except Decimal.InvalidOperation:
+                messages.error(request, "Invalid price format. Please enter a valid decimal number.")
         else:
-            # Collect form errors and display them
-            error_messages = "\n".join([f"{field}: {error}" for field, error in form.errors.items()])
+            error_messages = "\n".join([f"{field}: {', '.join(errors)}" for field, errors in form.errors.items()])
             messages.error(request, f"Error! Please correct the following errors:\n{error_messages}")
 
-        context = {'form': form, 'current_user': current_user, 'current_merchant': current_merchant}
-        return render(request, 'product_create.html', context)
+        categories = self.get_category_tree()
 
+        context = {
+            'form': form,
+            'current_user': request.user.merchant,
+            'current_merchant': current_merchant,
+            'categories': categories 
+        }
+        return render(request, 'product_create.html', context)
+    
+    def get_category_tree(self):
+        def build_tree(categories):
+            tree = []
+            for category in categories:
+                node = {
+                    'id': category.id,
+                    'name': category.name,
+                    'children': build_tree(category.children.all())
+                }
+                tree.append(node)
+            return tree
+
+        root_categories = Category.objects.filter(parent=None)
+        return build_tree(root_categories)
+
+    def get_merchant(self, request, id):
+        return get_object_or_404(Merchant, id=id)
+
+    def dispatch(self, request, *args, **kwargs):
+        if not request.user.is_authenticated:
+            messages.error(request, "You need to log in to create a product.")
+            return redirect('login')
+        if not hasattr(request.user, 'merchant'):
+            messages.error(request, "You need to be a merchant to create a product.")
+            return redirect('app:index')
+        return super().dispatch(request, *args, **kwargs)
 
 class ProductUpdateView(View):
     def get(self, request, slug, *args, **kwargs):

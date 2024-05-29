@@ -4,20 +4,142 @@
   <h4 class="text-center mb-4">Add Product</h4>
   <form method="POST" enctype="multipart/form-data">
     {% csrf_token %}
+    <div class="form-group">
+      <label for="item_category_name">Category</label>
+      <input type="text" id="item_category_name" class="form-control" readonly data-toggle="modal" data-target="#categoryModal" placeholder="Select Category">
+      {{ form.item_category }}
+    </div>
     {% for field in form %}
-      <div class="form-group">
-        <label for="{{ field.id_for_label }}">{{ field.label }}</label>
-        {{ field }}
-        {% if field.errors %}
-          <div class="invalid-feedback">
-            {% for error in field.errors %}
-              {{ error }}
-            {% endfor %}
-          </div>
-        {% endif %}
-      </div>
+      {% if field.name != 'item_category_name' and field.name != 'item_category' %}
+        <div class="form-group">
+          <label for="{{ field.id_for_label }}">{{ field.label }}</label>
+          {{ field }}
+          {% if field.errors %}
+            <div class="invalid-feedback">
+              {% for error in field.errors %}
+                {{ error }}
+              {% endfor %}
+            </div>
+          {% endif %}
+        </div>
+      {% endif %}
     {% endfor %}
     <button type="submit" class="btn form-control">Submit</button>
   </form>
+
+  {% for product in products %}
+    {{ product }}
+  {% endfor %}
 </div>
+
+<!-- Category Modal -->
+<div class="modal fade" id="categoryModal" tabindex="-1" role="dialog" aria-labelledby="categoryModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="categoryModalLabel">Choose Category</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <div class="modal-body">
+        <input type="text" class="form-control" id="categorySearchInput" placeholder="Search Category">
+        <div id="category-tree">
+          <!-- Category tree will be populated here -->
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.6.0/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+<script>
+  document.addEventListener('DOMContentLoaded', function () {
+    const categories = {{ categories|safe }}; // Pass categories from the backend
+
+    function createCategoryTree(categories, parentElement, depth = 0) {
+      categories.forEach(category => {
+        const categoryElement = document.createElement('div');
+        categoryElement.className = 'category-item';
+        categoryElement.textContent = category.name;
+        categoryElement.dataset.id = category.id;
+
+        // Set color based on depth
+        switch (depth) {
+          case 0:
+            categoryElement.style.color = 'salmon';
+            break;
+          case 1:
+            categoryElement.style.color = 'red';
+            break;
+          case 2:
+            categoryElement.style.color = 'green';
+            break;
+          case 3:
+            categoryElement.style.color = 'purple';
+            break;
+          case 4:
+            categoryElement.style.color = 'pink';
+            break;
+          default:
+            categoryElement.style.color = 'black'; // Default color
+        }
+
+        categoryElement.addEventListener('click', function () {
+          document.getElementById('item_category').value = category.id;
+          document.getElementById('item_category_name').value = category.name;
+          $('#categoryModal').modal('hide');
+        });
+
+        parentElement.appendChild(categoryElement);
+
+        if (category.children && category.children.length > 0) {
+          const dropdownButton = document.createElement('button');
+          dropdownButton.className = 'btn btn-link';
+          dropdownButton.textContent = '▼';
+          dropdownButton.addEventListener('click', function (e) {
+            e.stopPropagation();
+            childrenContainer.classList.toggle('d-none');
+          });
+          categoryElement.prepend(dropdownButton);
+
+          const childrenContainer = document.createElement('div');
+          childrenContainer.className = 'category-children d-none';
+          createCategoryTree(category.children, childrenContainer, depth + 1); // Increase depth for children
+          parentElement.appendChild(childrenContainer); // Append children under parent
+        }
+      });
+    }
+
+
+    function searchCategoryTree(categories, searchValue) {
+      const result = [];
+      categories.forEach(category => {
+        if (category.name.toLowerCase().includes(searchValue)) {
+          result.push(category);
+        } else if (category.children) {
+          const childrenResult = searchCategoryTree(category.children, searchValue);
+          if (childrenResult.length > 0) {
+            result.push({ ...category, children: childrenResult });
+          }
+        }
+      });
+      return result;
+    }
+
+    const categoryTreeContainer = document.getElementById('category-tree');
+    createCategoryTree(categories, categoryTreeContainer);
+
+    // Search functionality
+    const searchInput = document.getElementById('categorySearchInput');
+    searchInput.addEventListener('input', function () {
+      const searchValue = this.value.trim().toLowerCase();
+      const filteredCategories = searchCategoryTree(categories, searchValue);
+      categoryTreeContainer.innerHTML = ''; // Clear current category tree
+      createCategoryTree(filteredCategories, categoryTreeContainer); // Recreate tree with filtered categories
+    });
+  });
+</script>
 {% endblock %}

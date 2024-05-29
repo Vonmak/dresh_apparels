@@ -10,38 +10,30 @@ from .slug import unique_slugify
 from decimal import Decimal
 from django.core.validators import MinValueValidator
 
+from django.db.models.signals import post_migrate
+from django.dispatch import receiver
+
 # Create your models here.
-cat = [
-    ('vehicles', 'Vehicles'),
-    ('property', 'Property'),
-    ('phones', 'Phones'),
-    ('electronics', 'Electronics'),
-    ('home', 'Home'),
-    ('beauty', 'Beauty'),
-    ('fashion', 'Fashion'),
-    ('sport', 'Sport'),
-    ('food', 'Food'),
-]
 class Category(models.Model):
     name = models.CharField(max_length=255)
     slug = models.SlugField(max_length=255)
     parent = models.ForeignKey('self', null=True, blank=True, related_name='children', on_delete=models.CASCADE)
 
     class Meta:
-        unique_together = ('slug', 'parent',) 
+        unique_together = ('slug', 'parent',)
         verbose_name_plural = 'Categories'
 
-    def __str__(self):                           
-        full_path = [self.name]                  
+    def __str__(self):
+        full_path = [self.name]
         k = self.parent
         while k is not None:
             full_path.append(k.name)
             k = k.parent
-        return ' -> '.join(full_path[::-1]) 
-    
+        return ' -> '.join(full_path[::-1])
+
     def get_absolute_url(self):
         return '/%s/' % (self.slug)
-    
+
     def get_descendants(self):
         descendants = []
         self._get_descendants(descendants)
@@ -52,7 +44,6 @@ class Category(models.Model):
         for child in children:
             descendants.append(child)
             child._get_descendants(descendants)
-
         return descendants
     
 class Item(models.Model):
