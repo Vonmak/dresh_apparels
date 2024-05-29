@@ -1,7 +1,10 @@
 from django.shortcuts import render, get_object_or_404
 from product.models import Category, Item
 
+from datetime import datetime
+
 def index(request):
+    now = datetime.now()
     products = Item.objects.all()
 
     query = request.GET.get('query')

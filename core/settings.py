@@ -35,7 +35,7 @@ SECRET_KEY = os.environ['SECRET_KEY']
 DEBUG = os.environ.get('DEBUG') == 'True'
 # DATABASE_URL = os.environ['DATABASE_URL']
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['127.0.0.1', '.vercel.app']
 
 
 # Application definition
@@ -92,7 +92,10 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'core.wsgi.application'
+# WSGI_APPLICATION = 'core.wsgi.application'
+
+WSGI_APPLICATION = 'api.wsgi.app'
+
 
 
 # Database
